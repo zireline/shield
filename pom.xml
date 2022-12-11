@@ -19,12 +19,23 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.password4j</groupId>
+      <artifactId>password4j</artifactId>
+      <version>1.6.3</version>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.splitscale.fordastore.core</groupId>
+      <artifactId>fordastore-core</artifactId>
+      <version>1.0</version>
+    </dependency>
 
   </dependencies>
 

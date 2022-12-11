@@ -1,21 +1,26 @@
 package com.splitscale.security;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import com.splitscale.security.service.SecurityService;
-import com.splitscale.security.service.SecurityServiceImpl;
+import com.splitscale.fordastore.core.security.EncryptionService;
 
 public class AppTest {
 
+  EncryptionService sekyur;
+
+  @Before
+  public void setUp() {
+    sekyur = new Sekyur();
+  }
+
   @Test
   public void encodingShouldResultToSameHash() {
+    String pwd = "password";
+    String hashedPwd = sekyur.encrypt(pwd);
 
-    SecurityService service = new SecurityServiceImpl();
-    String pwd = "test1234";
-    String expected = "16d7a4fca7442dda3ad93c9a726597e4";
-
-    assertEquals(service.encode(pwd), expected);
+    assertTrue(sekyur.verify(pwd, hashedPwd));
   }
 }
