@@ -1,15 +1,13 @@
-package com.splitscale.security;
+package com.splitscale.shield;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.splitscale.fordastore.core.security.EncryptionService;
-
 public class AppTest {
 
-  EncryptionService sekyur;
+  Sekyur sekyur;
 
   @Before
   public void setUp() {
