@@ -6,18 +6,17 @@ import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-import com.splitscale.fordastore.core.security.Authorization;
-import com.splitscale.fordastore.core.security.UserClaims;
-import com.splitscale.fordastore.core.security.auth.AuthService;
+import com.splitscale.fordastore.core.user.User;
+import com.splitscale.shield.auth.Authorization;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-public class TokenizedAuthProvider {
+public class Authorizer {
 
-  public UserClaims authorize(String token, String publicKey) {
+  public User authorize(String token, String publicKey) {
 
     try {
       final PublicKey convertedPublicKey = base64ToPublicKey(publicKey);
@@ -28,30 +27,30 @@ public class TokenizedAuthProvider {
           .parseClaimsJws(token)
           .getBody();
 
-      UserClaims userClaims = new UserClaims();
+      User user = new User();
 
       final Long id = Long.parseLong(body.get("sid", String.class));
       final String uid = body.getSubject();
       String username = body.getAudience();
 
-      userClaims.setUsername(username);
-      userClaims.setId(id);
-      userClaims.setUid(uid);
+      user.setUsername(username);
+      user.setId(id);
+      user.setUid(uid);
 
-      return userClaims;
+      return user;
     } catch (Exception e) {
       return null;
     }
   }
 
-  public Authorization getAuthorization(UserClaims userClaims) {
+  public Authorization getAuthorization(User user) {
     final KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
     String jws = Jwts.builder()
         .setIssuer("splitscale")
-        .setAudience(userClaims.getUsername())
-        .claim("sid", Long.toString(userClaims.getId()))
-        .setSubject(userClaims.getUid())
+        .setAudience(user.getUsername())
+        .claim("sid", Long.toString(user.getId()))
+        .setSubject(user.getUid())
         .signWith(keyPair.getPrivate())
         .compact();
 
