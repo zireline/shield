@@ -5,16 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.splitscale.fordastore.core.security.Authorization;
-import com.splitscale.fordastore.core.security.UserClaims;
+import com.splitscale.fordastore.core.user.User;
+import com.splitscale.shield.auth.Authorization;
 
 public class TokenizedAuthProviderTest {
 
-  TokenizedAuthProvider service;
+  Authorizer fixture;
 
   @Before
   public void setUp() {
-    service = new TokenizedAuthProvider();
+    fixture = new Authorizer();
   }
 
   @Test
@@ -23,13 +23,13 @@ public class TokenizedAuthProviderTest {
     final String uid = "5de6477a-78a6-11ed-a1eb-0242ac120002";
     final Long id = 4234l;
 
-    final UserClaims claims = new UserClaims(username, id, uid);
+    final User claims = new User();
 
-    Authorization auth = service.getAuthorization(claims);
+    Authorization auth = fixture.getAuthorization(claims);
 
-    String basePK = service.publicKeyToBase64(auth.getPublicKey());
+    String basePK = fixture.publicKeyToBase64(auth.getPublicKey());
 
-    final UserClaims decodedUserClaims = service.authorize(auth.getToken(), basePK);
+    final User decodedUserClaims = fixture.authorize(auth.getToken(), basePK);
 
     assertEquals(username, decodedUserClaims.getUsername());
     assertEquals(uid, decodedUserClaims.getUid());

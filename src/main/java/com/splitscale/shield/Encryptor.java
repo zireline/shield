@@ -2,11 +2,10 @@ package com.splitscale.shield;
 
 import com.password4j.Hash;
 import com.password4j.Password;
-import com.splitscale.fordastore.core.security.EncryptionService;
 
-public class Sekyur {
+public class Encryptor {
 
-  public Sekyur() {
+  public Encryptor() {
     // default implementation
   }
 

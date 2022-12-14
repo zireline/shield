@@ -7,18 +7,18 @@ import org.junit.Test;
 
 public class AppTest {
 
-  Sekyur sekyur;
+  Encryptor fixture;
 
   @Before
   public void setUp() {
-    sekyur = new Sekyur();
+    fixture = new Encryptor();
   }
 
   @Test
   public void encodingShouldResultToSameHash() {
     String pwd = "password";
-    String hashedPwd = sekyur.encrypt(pwd);
+    String hashedPwd = fixture.encrypt(pwd);
 
-    assertTrue(sekyur.verify(pwd, hashedPwd));
+    assertTrue(fixture.verify(pwd, hashedPwd));
   }
 }
