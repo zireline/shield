@@ -29,12 +29,10 @@ public class Authorizer {
 
       User user = new User();
 
-      final Long id = Long.parseLong(body.get("sid", String.class));
       final String uid = body.getSubject();
       String username = body.getAudience();
 
       user.setUsername(username);
-      user.setId(id);
       user.setUid(uid);
 
       return user;
@@ -49,7 +47,6 @@ public class Authorizer {
     String jws = Jwts.builder()
         .setIssuer("splitscale")
         .setAudience(user.getUsername())
-        .claim("sid", Long.toString(user.getId()))
         .setSubject(user.getUid())
         .signWith(keyPair.getPrivate())
         .compact();

@@ -10,22 +10,18 @@ import com.splitscale.shield.auth.Authorization;
 
 public class TokenizedAuthProviderTest {
 
-  Authorizer fixture;
-
-  @Before
-  public void setUp() {
-    fixture = new Authorizer();
-  }
-
   @Test
   public void shouldAnswerWithTrue() {
+    Authorizer fixture = new Authorizer();
+
     final String username = "username";
     final String uid = "5de6477a-78a6-11ed-a1eb-0242ac120002";
-    final Long id = 4234l;
 
-    final User claims = new User();
+    User user = new User();
+    user.setUsername(username);
+    user.setUid(uid);
 
-    Authorization auth = fixture.getAuthorization(claims);
+    Authorization auth = fixture.getAuthorization(user);
 
     String basePK = fixture.publicKeyToBase64(auth.getPublicKey());
 
@@ -33,11 +29,11 @@ public class TokenizedAuthProviderTest {
 
     assertEquals(username, decodedUserClaims.getUsername());
     assertEquals(uid, decodedUserClaims.getUid());
-    assertEquals(id, decodedUserClaims.getId());
 
     System.out.println(decodedUserClaims.getUsername());
     System.out.println(decodedUserClaims.getUid());
-    System.out.println(decodedUserClaims.getId());
     System.out.println(basePK);
+
+    System.out.println("JWT TOKEN: " + auth.getToken());
   }
 }
