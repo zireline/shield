@@ -1,6 +1,10 @@
 com\splitscale\shield\Encryptor.class
 com\splitscale\shield\auth\AuthInteractor.class
 com\splitscale\shield\Authorizer.class
+com\splitscale\shield\jwt\JwtInteractor.class
 com\splitscale\shield\repository\AuthRepository.class
+com\splitscale\shield\sanitizer\RegistrationSanitizer.class
 com\splitscale\shield\auth\Authorization.class
+com\splitscale\shield\sanitizer\UsernameValidator.class
+com\splitscale\shield\routes\RegisterRoute.class
 com\splitscale\shield\auth\Token.class

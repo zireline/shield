@@ -1,4 +1,4 @@
-package com.splitscale.shield.sanitizer;
+package com.splitscale.shield.registration;
 
 import java.util.regex.Pattern;
 
@@ -11,17 +11,17 @@ public class UsernameValidator {
   public boolean isValid(String username) {
     return isValidLength(username)
         && isNotBlank(username)
-        && isNotHtml(username)
         && hasNoSpace(username)
+        && isNotHtml(username)
         && isNotSqlInjection(username);
-  }
-
-  private boolean isNotBlank(String username) {
-    return !username.isBlank();
   }
 
   private boolean isValidLength(String username) {
     return username.length() >= 3 && username.length() <= 16;
+  }
+
+  private boolean isNotBlank(String username) {
+    return !username.isBlank();
   }
 
   private boolean hasNoSpace(String username) {

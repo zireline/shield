@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
-import com.splitscale.shield.sanitizer.UsernameValidator;
+import com.splitscale.shield.registration.UsernameValidator;
 
 public class UsernameValidatorTest {
   UsernameValidator fixture;
@@ -19,7 +19,7 @@ public class UsernameValidatorTest {
 
   @Test
   @DisplayName("should return true if username is clean")
-  public void shouldAcceptNormalPassword() {
+  public void shouldAcceptNormalUsername() {
     String username = "username";
 
     assertTrue(fixture.isValid(username));
@@ -44,19 +44,24 @@ public class UsernameValidatorTest {
   @Test
   @DisplayName("should return false if username is html code")
   public void testIfUsernameIsHtml() {
-    String username = "<b>JohnDoe</b>";
+    String username = "<b>Jerome</b>";
 
     assertFalse(fixture.isValid(username));
   }
 
-   @Test
+  @Test
   @DisplayName("should return false if username is sql injection")
   public void testIfUsernameIsSqlInjection() {
     String username = "'; DROP TABLE users --";
 
     assertFalse(fixture.isValid(username));
   }
-}
 
-  
-  
+  @Test
+  @DisplayName("should return false if username Exceeds specified length")
+  public void shouldReturnFalseIfLengthExceedsMaxLength() {
+    String username = "usernameadkjwnhbsasd";
+
+    assertFalse(fixture.isValid(username));
+  }
+}

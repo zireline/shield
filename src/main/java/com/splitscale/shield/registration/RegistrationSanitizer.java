@@ -1,4 +1,4 @@
-package com.splitscale.shield.sanitizer;
+package com.splitscale.shield.registration;
 
 import com.splitscale.fordastore.core.repositories.UserRepository;
 import com.splitscale.fordastore.core.user.User;
@@ -8,18 +8,22 @@ import com.splitscale.shield.Encryptor;
 public class RegistrationSanitizer {
   UserRepository repository;
   Encryptor security;
-  UsernameValidator username;
+  UsernameValidator usernameValidator;
+  PasswordValidator passwordValidator;
 
-  public RegistrationSanitizer(UserRepository repository, Encryptor security, UsernameValidator username) {
+  public RegistrationSanitizer(UserRepository repository, Encryptor security, UsernameValidator usernameValidator,
+      PasswordValidator passwordValidator) {
     this.repository = repository;
     this.security = security;
-    this.username = username;
+    this.usernameValidator = usernameValidator;
+    this.passwordValidator = passwordValidator;
   }
 
   public User sanitizeAndSave(UserRequest userRequest) throws Exception {
 
     // sanitizes the inputs
-    if (!username.isValid(userRequest.getUsername())) {
+    if (!usernameValidator.isValid(userRequest.getUsername())
+        || !passwordValidator.isValid(userRequest.getPassword())) {
       throw new Exception("Invalid username or password");
     }
 
