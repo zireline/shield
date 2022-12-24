@@ -1,5 +1,7 @@
 package com.splitscale.shield.endpoints;
 
+import java.io.IOException;
+
 import com.splitscale.fordastore.core.user.User;
 import com.splitscale.fordastore.core.user.UserRequest;
 import com.splitscale.fordastore.core.user.register.RegisterInteractor;
@@ -16,10 +18,10 @@ public class RegisterEndpoint {
     this.jwtInteractor = jwtInteractor;
   }
 
-  public String register(UserRequest userRequest) throws Exception {
+  public String register(UserRequest userRequest) throws IllegalArgumentException, IOException {
 
     if (!UserRequestValidator.validate(userRequest)) {
-      throw new Exception("Invalid username or password");
+      throw new IllegalArgumentException("Invalid username or password");
     }
 
     String hashedPassword = Encryptor.encrypt(userRequest.getPassword());
