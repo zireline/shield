@@ -1,29 +1,26 @@
 package com.splitscale.shield;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.splitscale.fordastore.core.user.UserRequest;
-import com.splitscale.shield.routes.RegisterRoute;
+import com.splitscale.shield.endpoints.RegisterEndpoint;
 
 @ExtendWith(value = { MockitoExtension.class })
-public class RegisterRouteTest {
-  @Mock
-  RegisterRoute fixture;
+public class RegisterEndpointTest {
 
-  @Mock
   UserRequest userRequest;
 
   @Before
   public void init() {
-    fixture = new RegisterRoute(null, null);
+    userRequest = new UserRequest("username", "Password1234");
   }
 
   @Test
@@ -31,8 +28,10 @@ public class RegisterRouteTest {
   public void testRegisterRoute() throws Exception {
     String someToken = "some token";
 
-    when(fixture.register(userRequest)).thenReturn(someToken);
+    RegisterEndpoint endpoint = mock(RegisterEndpoint.class);
 
-    assertEquals(someToken, fixture.register(userRequest));
+    when(endpoint.register(userRequest)).thenReturn(someToken);
+
+    assertEquals(someToken, endpoint.register(userRequest));
   }
 }
