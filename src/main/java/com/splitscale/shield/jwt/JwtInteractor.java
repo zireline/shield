@@ -1,30 +1,30 @@
 package com.splitscale.shield.jwt;
 
+import java.io.IOException;
+
+import com.splitscale.fordastore.core.auth.Authorization;
+import com.splitscale.fordastore.core.auth.PublicKey;
+import com.splitscale.fordastore.core.repositories.AuthRepository;
 import com.splitscale.fordastore.core.user.User;
-import com.splitscale.shield.Authorizer;
-import com.splitscale.shield.auth.Authorization;
-import com.splitscale.shield.auth.Token;
-import com.splitscale.shield.repository.AuthRepository;
+import com.splitscale.shield.auth.Authorizer;
 
 public class JwtInteractor {
-  AuthRepository authRepo;
-  Authorizer authorizer;
+  AuthRepository repository;
 
-  public JwtInteractor(AuthRepository authRepo, Authorizer authorizer) {
-    this.authRepo = authRepo;
-    this.authorizer = authorizer;
+  public JwtInteractor(AuthRepository repository) {
+    this.repository = repository;
   }
 
-  public String generateJwtFromUser(User user) {
-    Authorization auth = authorizer.getAuthorization(user);
+  public String generateJwtFromUser(User user) throws IOException {
+    Authorization auth = Authorizer.getAuthorization(user);
 
     // converted to base 64 for storage purposes
-    String base64PublicKey = authorizer.publicKeyToBase64(auth.getPublicKey());
+    String base64PublicKey = Authorizer.publicKeyToBase64(auth.getPublicKey());
 
-    Token token = new Token(user.getUid(), base64PublicKey);
+    PublicKey publicKey = new PublicKey(user.getUid(), base64PublicKey);
 
-    authRepo.insert(token);
+    repository.insert(publicKey);
 
-    return auth.getToken();
+    return auth.getJwt();
   }
 }

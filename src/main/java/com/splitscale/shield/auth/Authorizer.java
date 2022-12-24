@@ -1,4 +1,4 @@
-package com.splitscale.shield;
+package com.splitscale.shield.auth;
 
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -6,8 +6,8 @@ import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
+import com.splitscale.fordastore.core.auth.Authorization;
 import com.splitscale.fordastore.core.user.User;
-import com.splitscale.shield.auth.Authorization;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +16,11 @@ import io.jsonwebtoken.security.Keys;
 
 public class Authorizer {
 
-  public User authorize(String token, String publicKey) {
+  private Authorizer() {
+    // default implementation
+  }
+
+  public static User authorize(String token, String publicKey) {
 
     try {
       final PublicKey convertedPublicKey = base64ToPublicKey(publicKey);
@@ -41,7 +45,7 @@ public class Authorizer {
     }
   }
 
-  public Authorization getAuthorization(User user) {
+  public static Authorization getAuthorization(User user) {
     final KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
     String jws = Jwts.builder()
@@ -54,14 +58,14 @@ public class Authorizer {
     return new Authorization(keyPair.getPublic(), jws);
   }
 
-  public PublicKey base64ToPublicKey(String base64String) throws Exception {
+  public static PublicKey base64ToPublicKey(String base64String) throws Exception {
     byte[] publicKeyBytes = Base64.getDecoder().decode(base64String);
     X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
     KeyFactory keyFactory = KeyFactory.getInstance("RSA");
     return keyFactory.generatePublic(keySpec);
   }
 
-  public String publicKeyToBase64(PublicKey publicKey) {
+  public static String publicKeyToBase64(PublicKey publicKey) {
     byte[] publicKeyBytes = publicKey.getEncoded();
     return Base64.getEncoder().encodeToString(publicKeyBytes);
   }

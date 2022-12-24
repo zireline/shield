@@ -1,6 +1,0 @@
-com\splitscale\shield\Encryptor.class
-com\splitscale\shield\repository\AuthRepository.class
-com\splitscale\shield\auth\Authorization.class
-com\splitscale\shield\auth\AuthInteractor.class
-com\splitscale\shield\Authorizer.class
-com\splitscale\shield\auth\Token.class
