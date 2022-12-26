@@ -1,7 +1,7 @@
 package com.splitscale.shield;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class UserRequestValidatorTest {
   @Test
   @DisplayName("should return true if password is clean")
   public void shouldAcceptNormalPassword() {
-    assertTrue(UserRequestValidator.validate(userRequest));
+    assertDoesNotThrow(() -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -36,7 +36,7 @@ public class UserRequestValidatorTest {
   public void shouldBeAtMost8Characters() {
     userRequest.setPassword("Forda12");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -44,7 +44,7 @@ public class UserRequestValidatorTest {
   public void testIfPasswordDoesNotContainLowerCase() {
     userRequest.setPassword("FORDASTORE123");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class UserRequestValidatorTest {
   public void testIfPasswordDoesNotContainUppercase() {
     userRequest.setPassword("fordastore123");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -60,7 +60,7 @@ public class UserRequestValidatorTest {
   public void testIfPasswordDoesNotContainANumber() {
     userRequest.setPassword("Fordastore");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -68,7 +68,7 @@ public class UserRequestValidatorTest {
   public void testIfPasswordIsHtml() {
     userRequest.setPassword("<b>Jerome</b>");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -76,13 +76,13 @@ public class UserRequestValidatorTest {
   public void testIfPasswordIsSqlInjection() {
     userRequest.setPassword("'; DROP TABLE users --");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
   @DisplayName("should return true if username is clean")
   public void shouldAcceptNormalUsername() {
-    assertTrue(UserRequestValidator.validate(userRequest));
+    assertDoesNotThrow(() -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -90,7 +90,7 @@ public class UserRequestValidatorTest {
   public void testIfUsernameIsEmpty() {
     userRequest.setUsername(" ");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -98,7 +98,7 @@ public class UserRequestValidatorTest {
   public void testIfUsernameHasSpace() {
     userRequest.setUsername("naruto uzumaki");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -106,7 +106,7 @@ public class UserRequestValidatorTest {
   public void testIfUsernameIsHtml() {
     userRequest.setUsername("<b>Jerome</b>");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 
   @Test
@@ -114,6 +114,6 @@ public class UserRequestValidatorTest {
   public void testIfUsernameIsSqlInjection() {
     userRequest.setUsername("'; DROP TABLE users --");
 
-    assertFalse(UserRequestValidator.validate(userRequest));
+    assertThrows(Exception.class, () -> UserRequestValidator.validate(userRequest));
   }
 }

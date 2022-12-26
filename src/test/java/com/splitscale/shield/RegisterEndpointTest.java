@@ -1,6 +1,6 @@
 package com.splitscale.shield;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,12 +26,11 @@ public class RegisterEndpointTest {
   @Test
   @DisplayName("register route should return a jwt string token")
   public void testRegisterRoute() throws Exception {
-    String someToken = "some token";
 
     RegisterEndpoint endpoint = mock(RegisterEndpoint.class);
 
-    when(endpoint.register(userRequest)).thenReturn(someToken);
+    when(endpoint.register(userRequest)).thenReturn(true);
 
-    assertEquals(someToken, endpoint.register(userRequest));
+    assertTrue(endpoint.register(userRequest));
   }
 }

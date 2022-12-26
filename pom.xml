@@ -76,7 +76,6 @@
       <version>4.9.0</version>
     </dependency>
 
-
     <dependency>
       <groupId>com.splitscale.fordastore.core</groupId>
       <artifactId>fordastore-core</artifactId>

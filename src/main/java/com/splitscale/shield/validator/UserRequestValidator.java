@@ -10,9 +10,13 @@ public class UserRequestValidator {
     // default constructor
   }
 
-  public static boolean validate(UserRequest userRequest) {
-    return isValidUsername(userRequest.getUsername())
+  public static void validate(UserRequest userRequest) throws IllegalArgumentException {
+    final boolean isValid = isValidUsername(userRequest.getUsername())
         && isValidPassword(userRequest.getPassword());
+
+    if (!isValid) {
+      throw new IllegalArgumentException("Invalid username or password");
+    }
   }
 
   private static boolean isValidPassword(String password) {

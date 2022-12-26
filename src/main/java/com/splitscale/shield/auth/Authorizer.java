@@ -1,10 +1,10 @@
 package com.splitscale.shield.auth;
 
-import java.security.KeyFactory;
+import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.PublicKey;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
+import java.util.Date;
+import java.util.UUID;
 
 import com.splitscale.fordastore.core.auth.Authorization;
 import com.splitscale.fordastore.core.user.User;
@@ -20,10 +20,10 @@ public class Authorizer {
     // default implementation
   }
 
-  public static User authorize(String token, String publicKey) {
+  public static User authorize(String token, String publicKey) throws GeneralSecurityException {
 
     try {
-      final PublicKey convertedPublicKey = base64ToPublicKey(publicKey);
+      final PublicKey convertedPublicKey = PublicKeyConverter.base64ToPublicKey(publicKey);
 
       final Claims body = Jwts.parserBuilder()
           .setSigningKey(convertedPublicKey)
@@ -36,12 +36,26 @@ public class Authorizer {
       final String uid = body.getSubject();
       String username = body.getAudience();
 
+      String issuer = body.getIssuer();
+      if (!issuer.equals("splitscale.com")) {
+        throw new Exception();
+      }
+
+      Date expiration = body.getExpiration();
+      if (expiration.before(new Date())) {
+        throw new Exception();
+      }
+
+      Date notBefore = body.getNotBefore();
+      if (notBefore.after(new Date())) {
+        throw new Exception();
+      }
       user.setUsername(username);
       user.setUid(uid);
 
       return user;
     } catch (Exception e) {
-      return null;
+      throw new GeneralSecurityException("Invalid authorization token");
     }
   }
 
@@ -49,25 +63,16 @@ public class Authorizer {
     final KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
     String jws = Jwts.builder()
-        .setIssuer("splitscale")
-        .setAudience(user.getUsername())
+        .setIssuer("splitscale.com")
         .setSubject(user.getUid())
+        .setExpiration(new Date(System.currentTimeMillis() + 900000))
+        .setNotBefore(new Date())
+        .setIssuedAt(new Date())
+        .setAudience(user.getUsername())
         .signWith(keyPair.getPrivate())
+        .setId(UUID.randomUUID().toString())
         .compact();
 
     return new Authorization(keyPair.getPublic(), jws);
   }
-
-  public static PublicKey base64ToPublicKey(String base64String) throws Exception {
-    byte[] publicKeyBytes = Base64.getDecoder().decode(base64String);
-    X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
-    KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-    return keyFactory.generatePublic(keySpec);
-  }
-
-  public static String publicKeyToBase64(PublicKey publicKey) {
-    byte[] publicKeyBytes = publicKey.getEncoded();
-    return Base64.getEncoder().encodeToString(publicKeyBytes);
-  }
-
 }

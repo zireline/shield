@@ -7,6 +7,7 @@ import com.splitscale.fordastore.core.auth.PublicKey;
 import com.splitscale.fordastore.core.repositories.AuthRepository;
 import com.splitscale.fordastore.core.user.User;
 import com.splitscale.shield.auth.Authorizer;
+import com.splitscale.shield.auth.PublicKeyConverter;
 
 public class JwtInteractor {
   AuthRepository repository;
@@ -19,7 +20,7 @@ public class JwtInteractor {
     Authorization auth = Authorizer.getAuthorization(user);
 
     // converted to base 64 for storage purposes
-    String base64PublicKey = Authorizer.publicKeyToBase64(auth.getPublicKey());
+    String base64PublicKey = PublicKeyConverter.publicKeyToBase64(auth.getPublicKey());
 
     PublicKey publicKey = new PublicKey(user.getUid(), base64PublicKey);
 
