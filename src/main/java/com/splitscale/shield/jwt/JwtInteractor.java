@@ -28,4 +28,8 @@ public class JwtInteractor {
 
     return auth.getJwt();
   }
+
+  public String getPublicKeyByUID(String uid) throws IOException {
+    return repository.getByID(uid).getPublicKey();
+  }
 }

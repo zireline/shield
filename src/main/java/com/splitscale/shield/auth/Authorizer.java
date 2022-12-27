@@ -27,7 +27,7 @@ public class Authorizer {
 
       final Claims body = Jwts.parserBuilder()
           .requireIssuer("splitscale.com")
-          .require("permission","user")
+          .require("permission", "user")
           .setSigningKey(convertedPublicKey)
           .build()
           .parseClaimsJws(token)
@@ -47,10 +47,39 @@ public class Authorizer {
       if (notBefore.after(new Date())) {
         throw new Exception();
       }
+
       user.setUsername(username);
       user.setUid(uid);
 
       return user;
+    } catch (Exception e) {
+      throw new GeneralSecurityException("Invalid authorization token");
+    }
+  }
+
+  public static void validateToken(String token, String publicKey) throws GeneralSecurityException {
+
+    try {
+      final PublicKey convertedPublicKey = PublicKeyConverter.base64ToPublicKey(publicKey);
+
+      final Claims body = Jwts.parserBuilder()
+          .requireIssuer("splitscale.com")
+          .require("permission", "user")
+          .setSigningKey(convertedPublicKey)
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
+
+      Date expiration = body.getExpiration();
+      if (expiration.before(new Date())) {
+        throw new Exception();
+      }
+
+      Date notBefore = body.getNotBefore();
+      if (notBefore.after(new Date())) {
+        throw new Exception();
+      }
+
     } catch (Exception e) {
       throw new GeneralSecurityException("Invalid authorization token");
     }
