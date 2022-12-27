@@ -19,35 +19,29 @@ public class UserRequestValidator {
     }
   }
 
-  private static boolean isValidPassword(String password) {
-    return isValidPasswordRequirements(password)
-        && isNotHtml(password)
-        && isNotSqlInjection(password);
+  /**
+   * regex that allows only lowercase and uppercase letters, 0-9, dash and
+   * underscore with no spaces and a minimum length of 3 chars and a maximum of 25
+   */
+  public static boolean isValidUsername(String username) {
+    Pattern usernamePattern = Pattern.compile("^[a-zA-Z0-9_-]{3,25}$");
+    return usernamePattern.matcher(username).matches();
   }
 
-  private static boolean isValidUsername(String username) {
-    return isValidUsernameRequirements(username)
-        && isNotHtml(username)
-        && isNotSqlInjection(username);
-  }
-
-  private static boolean isValidPasswordRequirements(String password) {
-    Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
-    return pattern.matcher(password).find();
-  }
-
-  private static boolean isValidUsernameRequirements(String username) {
-    Pattern pattern = Pattern.compile("^(?=.{3,}$)[a-zA-Z0-9._-]*[^\s]$");
-    return pattern.matcher(username).find();
-  }
-
-  private static boolean isNotHtml(String password) {
-    Pattern pattern = Pattern.compile("<[^>]*>");
-    return !pattern.matcher(password).find();
-  }
-
-  private static boolean isNotSqlInjection(String password) {
-    Pattern pattern = Pattern.compile("[\\';]+|(--)+");
-    return !pattern.matcher(password).find();
+  /**
+   * (?=.*[a-z]): contain at least one lowercase letter.
+   * (?=.*[A-Z]): contain at least one uppercase letter.
+   * (?=.*\\d): contain at least one digit.
+   * [a-zA-Z\\d]: This character class matches any alphabetic or numeric
+   * character.
+   * {8,}: This quantifier requires the string to be at least 8 characters long.
+   * (?!.*['\"\\-\\[\\]<>]): This negative lookahead group ensures that the string
+   * does not contain any single quotes, double quotes, dashes, square brackets,
+   * or angle brackets
+   */
+  public static boolean isValidPassword(String password) {
+    Pattern passwordPattern = Pattern
+        .compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}(?!.*['\"\\-\\[\\]<>])$");
+    return passwordPattern.matcher(password).matches();
   }
 }
