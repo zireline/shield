@@ -10,8 +10,8 @@ import com.splitscale.shield.jwt.JwtInteractor;
 import com.splitscale.shield.validator.UserRequestValidator;
 
 public class LoginEndpoint {
-  LoginInteractor loginInteractor;
-  JwtInteractor jwtInteractor;
+  private LoginInteractor loginInteractor;
+  private JwtInteractor jwtInteractor;
 
   public LoginEndpoint(LoginInteractor loginInteractor, JwtInteractor jwtInteractor) {
     this.loginInteractor = loginInteractor;

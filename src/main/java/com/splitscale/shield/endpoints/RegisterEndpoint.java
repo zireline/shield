@@ -8,7 +8,7 @@ import com.splitscale.shield.encryption.Encryptor;
 import com.splitscale.shield.validator.UserRequestValidator;
 
 public class RegisterEndpoint {
-  RegisterInteractor registerInteractor;
+  private RegisterInteractor registerInteractor;
 
   public RegisterEndpoint(RegisterInteractor registerInteractor) {
     this.registerInteractor = registerInteractor;

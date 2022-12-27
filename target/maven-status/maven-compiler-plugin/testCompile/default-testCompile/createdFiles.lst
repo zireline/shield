@@ -1,5 +1,6 @@
-com\splitscale\shield\UserRequestValidatorTest.class
+com\splitscale\shield\UsernameValidatorTest.class
 com\splitscale\shield\JwtInteractorTest.class
+com\splitscale\shield\PasswordValidatorTest.class
 com\splitscale\shield\RegisterEndpointTest.class
 com\splitscale\shield\AuthorizerTest.class
 com\splitscale\shield\EncryptorTest.class
