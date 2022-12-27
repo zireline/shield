@@ -26,6 +26,8 @@ public class Authorizer {
       final PublicKey convertedPublicKey = PublicKeyConverter.base64ToPublicKey(publicKey);
 
       final Claims body = Jwts.parserBuilder()
+          .requireIssuer("splitscale.com")
+          .require("permission","user")
           .setSigningKey(convertedPublicKey)
           .build()
           .parseClaimsJws(token)
@@ -35,11 +37,6 @@ public class Authorizer {
 
       final String uid = body.getSubject();
       String username = body.getAudience();
-
-      String issuer = body.getIssuer();
-      if (!issuer.equals("splitscale.com")) {
-        throw new Exception();
-      }
 
       Date expiration = body.getExpiration();
       if (expiration.before(new Date())) {
@@ -65,6 +62,7 @@ public class Authorizer {
     String jws = Jwts.builder()
         .setIssuer("splitscale.com")
         .setSubject(user.getUid())
+        .claim("permission", "user")
         .setExpiration(new Date(System.currentTimeMillis() + 900000))
         .setNotBefore(new Date())
         .setIssuedAt(new Date())

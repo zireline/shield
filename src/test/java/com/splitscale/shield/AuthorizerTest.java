@@ -17,7 +17,7 @@ import com.splitscale.shield.auth.PublicKeyConverter;
 public class AuthorizerTest {
 
   @Test
-  public void shouldShowDebutData() throws Exception {
+  public void shouldShowDefaultData() throws Exception {
     final String username = "username";
     final String uid = "5de6477a-78a6-11ed-a1eb-0242ac120002";
 
