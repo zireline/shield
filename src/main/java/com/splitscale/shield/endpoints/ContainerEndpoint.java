@@ -18,13 +18,12 @@ public class ContainerEndpoint {
     this.jwtInteractor = jwtInteractor;
   }
 
-  public Container create(ContainerRequest containerRequest, String jwtToken)
-      throws IOException, GeneralSecurityException {
+  public void create(ContainerRequest containerRequest, String jwtToken) throws IOException, GeneralSecurityException {
     String uid = containerRequest.getUid();
     String pk = jwtInteractor.getPublicKeyByUID(uid);
 
     Authorizer.validateToken(jwtToken, pk);
 
-    return createContainerInteractor.createContainer(containerRequest);
+    createContainerInteractor.createContainer(containerRequest);
   }
 }

@@ -14,7 +14,7 @@ public class RegisterEndpoint {
     this.registerInteractor = registerInteractor;
   }
 
-  public boolean register(UserRequest userRequest) throws IllegalArgumentException, IOException {
+  public void register(UserRequest userRequest) throws IllegalArgumentException, IOException {
 
     UserRequestValidator.validate(userRequest);
 
@@ -22,7 +22,5 @@ public class RegisterEndpoint {
     userRequest.setPassword(hashedPassword);
 
     registerInteractor.register(userRequest);
-
-    return true;
   }
 }

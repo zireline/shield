@@ -1,7 +1,0 @@
-com\splitscale\shield\auth\Authorizer.class
-com\splitscale\shield\encryption\Encryptor.class
-com\splitscale\shield\endpoints\RegisterEndpoint.class
-com\splitscale\shield\auth\PublicKeyConverter.class
-com\splitscale\shield\jwt\JwtInteractor.class
-com\splitscale\shield\endpoints\LoginEndpoint.class
-com\splitscale\shield\validator\UserRequestValidator.class
