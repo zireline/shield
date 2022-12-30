@@ -7,20 +7,15 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.mockito.Mock;
 
-import com.splitscale.fordastore.core.repositories.AuthRepository;
 import com.splitscale.fordastore.core.user.User;
-import com.splitscale.shield.jwt.JwtInteractor;
+import com.splitscale.shield.auth.AuthPublicKeyInteractor;
 
-public class JwtInteractorTest {
-  @Mock
-  private AuthRepository repository;
-
+public class AuthPublicKeyInteractorTest {
   @Test
   public void testGenerateJwtFromUser() throws IOException {
 
-    JwtInteractor interactor = mock(JwtInteractor.class);
+    AuthPublicKeyInteractor interactor = mock(AuthPublicKeyInteractor.class);
     User user = mock(User.class);
 
     String someJwt = "someJwt";

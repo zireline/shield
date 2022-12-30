@@ -5,17 +5,17 @@ import java.io.IOException;
 import com.splitscale.fordastore.core.user.User;
 import com.splitscale.fordastore.core.user.UserRequest;
 import com.splitscale.fordastore.core.user.login.LoginInteractor;
+import com.splitscale.shield.auth.AuthPublicKeyInteractor;
 import com.splitscale.shield.encryption.Encryptor;
-import com.splitscale.shield.jwt.JwtInteractor;
 import com.splitscale.shield.validator.UserRequestValidator;
 
 public class LoginEndpoint {
   private LoginInteractor loginInteractor;
-  private JwtInteractor jwtInteractor;
+  private AuthPublicKeyInteractor authPublicKeyInteractor;
 
-  public LoginEndpoint(LoginInteractor loginInteractor, JwtInteractor jwtInteractor) {
+  public LoginEndpoint(LoginInteractor loginInteractor, AuthPublicKeyInteractor authPublicKeyInteractor) {
     this.loginInteractor = loginInteractor;
-    this.jwtInteractor = jwtInteractor;
+    this.authPublicKeyInteractor = authPublicKeyInteractor;
   }
 
   public String login(UserRequest userRequest) throws IllegalArgumentException, IOException {
@@ -30,6 +30,6 @@ public class LoginEndpoint {
       throw new IllegalArgumentException("User not registered");
     }
 
-    return jwtInteractor.generateJwtFromUser(user);
+    return authPublicKeyInteractor.generateJwtFromUser(user);
   }
 }

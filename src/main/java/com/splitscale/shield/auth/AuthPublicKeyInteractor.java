@@ -1,4 +1,4 @@
-package com.splitscale.shield.jwt;
+package com.splitscale.shield.auth;
 
 import java.io.IOException;
 
@@ -6,13 +6,11 @@ import com.splitscale.fordastore.core.auth.AuthPublicKey;
 import com.splitscale.fordastore.core.auth.Authorization;
 import com.splitscale.fordastore.core.repositories.AuthRepository;
 import com.splitscale.fordastore.core.user.User;
-import com.splitscale.shield.auth.Authorizer;
-import com.splitscale.shield.auth.PublicKeyConverter;
 
-public class JwtInteractor {
-  AuthRepository repository;
+public class AuthPublicKeyInteractor {
+  static AuthRepository repository;
 
-  public JwtInteractor(AuthRepository repository) {
+  public AuthPublicKeyInteractor(AuthRepository repository) {
     this.repository = repository;
   }
 
@@ -31,5 +29,9 @@ public class JwtInteractor {
 
   public String getPublicKeyByUID(String uid) throws IOException {
     return repository.getByUid(uid).getPublicKey();
+  }
+
+  public void deletePublicKeyByUID(String uid) throws IOException {
+    repository.deleteByUid(uid);
   }
 }
