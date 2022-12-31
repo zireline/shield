@@ -13,6 +13,8 @@ public class LoginEndpoint {
   private LoginInteractor loginInteractor;
   private AuthPublicKeyInteractor authPublicKeyInteractor;
 
+  private User user;
+
   public LoginEndpoint(LoginInteractor loginInteractor, AuthPublicKeyInteractor authPublicKeyInteractor) {
     this.loginInteractor = loginInteractor;
     this.authPublicKeyInteractor = authPublicKeyInteractor;
@@ -22,14 +24,19 @@ public class LoginEndpoint {
 
     UserRequestValidator.validate(userRequest);
 
-    User user = loginInteractor.login(userRequest);
+    // TODO: user not registered is username is not found
+    user = loginInteractor.login(userRequest);
 
     boolean isRegistered = Encryptor.verify(userRequest.getPassword(), user.getPassword());
 
     if (!isRegistered) {
-      throw new IllegalArgumentException("User not registered");
+      throw new IllegalArgumentException("Wrong username or password");
     }
 
     return authPublicKeyInteractor.generateJwtFromUser(user);
+  }
+
+  public String getUid() {
+    return user.getUid();
   }
 }

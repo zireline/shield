@@ -21,8 +21,8 @@ public class LogoutEndpointTest {
 
     ArgumentCaptor<String> stringInput = ArgumentCaptor.forClass(String.class);
 
-    fakeEndpoint.logout("AQ12");
+    fakeEndpoint.logout("some token", "AQ12");
 
-    verify(fakeEndpoint).logout(stringInput.capture());
+    verify(fakeEndpoint).logout(stringInput.capture(), stringInput.capture());
   }
 }
