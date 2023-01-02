@@ -1,4 +1,4 @@
-package com.splitscale.shield.endpoints;
+package com.splitscale.shield.endpoints.url.create;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -7,10 +7,10 @@ import com.splitscale.fordastore.core.url.UrlRequest;
 import com.splitscale.fordastore.core.url.create.CreateUrlInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 
-public class URLEndpoint {
+public class CreateUrlEndpoint {
   private CreateUrlInteractor createUrlInteractor;
 
-  public URLEndpoint(CreateUrlInteractor createUrlInteractor) {
+  public CreateUrlEndpoint(CreateUrlInteractor createUrlInteractor) {
     this.createUrlInteractor = createUrlInteractor;
   }
 

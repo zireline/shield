@@ -1,4 +1,4 @@
-package com.splitscale.shield.endpoints;
+package com.splitscale.shield.endpoints.container.create;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -7,10 +7,10 @@ import com.splitscale.fordastore.core.container.ContainerRequest;
 import com.splitscale.fordastore.core.container.create.CreateContainerInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 
-public class ContainerEndpoint {
+public class CreateContainerEndpoint {
   private CreateContainerInteractor createContainerInteractor;
 
-  public ContainerEndpoint(CreateContainerInteractor createContainerInteractor) {
+  public CreateContainerEndpoint(CreateContainerInteractor createContainerInteractor) {
     this.createContainerInteractor = createContainerInteractor;
   }
 

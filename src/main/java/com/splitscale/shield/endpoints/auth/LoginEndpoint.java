@@ -1,4 +1,4 @@
-package com.splitscale.shield.endpoints;
+package com.splitscale.shield.endpoints.auth;
 
 import java.io.IOException;
 
