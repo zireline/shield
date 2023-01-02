@@ -5,23 +5,18 @@ import java.security.GeneralSecurityException;
 
 import com.splitscale.fordastore.core.container.ContainerRequest;
 import com.splitscale.fordastore.core.container.create.CreateContainerInteractor;
-import com.splitscale.shield.auth.AuthPublicKeyInteractor;
-import com.splitscale.shield.auth.Authorizer;
+import com.splitscale.shield.jws.ShieldJws;
 
 public class ContainerEndpoint {
   private CreateContainerInteractor createContainerInteractor;
-  private AuthPublicKeyInteractor authPublicKeyInteractor;
 
-  public ContainerEndpoint(CreateContainerInteractor createContainerInteractor, AuthPublicKeyInteractor authPublicKeyInteractor) {
+  public ContainerEndpoint(CreateContainerInteractor createContainerInteractor) {
     this.createContainerInteractor = createContainerInteractor;
-    this.authPublicKeyInteractor = authPublicKeyInteractor;
   }
 
-  public void create(ContainerRequest containerRequest, String jwtToken) throws IOException, GeneralSecurityException {
-    String uid = containerRequest.getUid();
-    String pk = authPublicKeyInteractor.getPublicKeyByUID(uid);
+  public void create(ContainerRequest containerRequest, String jwsToken) throws IOException, GeneralSecurityException {
 
-    Authorizer.validateToken(jwtToken, pk);
+    ShieldJws.validateJws(jwsToken);
 
     createContainerInteractor.createContainer(containerRequest);
   }

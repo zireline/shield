@@ -1,18 +1,18 @@
 package com.splitscale.shield;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.Test;
 
-import com.splitscale.shield.encryption.Encryptor;
+import com.splitscale.shield.password.PasswordHasher;
 
 public class EncryptorTest {
 
   @Test
   public void encodingShouldResultToSameHash() {
     String pwd = "password";
-    String hashedPwd = Encryptor.encrypt(pwd);
+    String hashedPwd = PasswordHasher.encrypt(pwd);
 
-    assertTrue(Encryptor.verify(pwd, hashedPwd));
+    assertDoesNotThrow(() -> PasswordHasher.verify(pwd, hashedPwd));
   }
 }
