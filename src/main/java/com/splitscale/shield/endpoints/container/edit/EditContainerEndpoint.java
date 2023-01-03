@@ -9,7 +9,7 @@ import com.splitscale.shield.jws.ShieldJws;
 
 public class EditContainerEndpoint {
   private EditContainerInteractor editContainerInteractor;
-  
+
   public EditContainerEndpoint(EditContainerInteractor editContainerInteractor) {
     this.editContainerInteractor = editContainerInteractor;
   }

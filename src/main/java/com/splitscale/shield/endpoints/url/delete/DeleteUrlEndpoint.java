@@ -17,6 +17,6 @@ public class DeleteUrlEndpoint {
 
     ShieldJws.validateJws(jwsToken);
 
-    deleteUrlInteractor.deleteContentById(id);
+    deleteUrlInteractor.deleteUrlById(id);
   }
 }

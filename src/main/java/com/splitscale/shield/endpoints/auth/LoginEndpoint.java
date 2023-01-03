@@ -5,16 +5,16 @@ import java.io.IOException;
 import com.splitscale.fordastore.core.user.User;
 import com.splitscale.fordastore.core.user.UserRequest;
 import com.splitscale.fordastore.core.user.UserResponse;
-import com.splitscale.fordastore.core.user.login.LoginInteractor;
+import com.splitscale.fordastore.core.user.get.GetUserInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 import com.splitscale.shield.password.PasswordHasher;
 import com.splitscale.shield.response.LoginResponse;
 import com.splitscale.shield.validator.UserRequestValidator;
 
 public class LoginEndpoint {
-  private LoginInteractor loginInteractor;
+  private GetUserInteractor loginInteractor;
 
-  public LoginEndpoint(LoginInteractor loginInteractor) {
+  public LoginEndpoint(GetUserInteractor loginInteractor) {
     this.loginInteractor = loginInteractor;
   }
 
@@ -23,7 +23,7 @@ public class LoginEndpoint {
 
     UserRequestValidator.validate(userRequest);
 
-    User user = loginInteractor.login(userRequest);
+    User user = loginInteractor.getByUsername(userRequest.getUsername());
 
     PasswordHasher.verify(userRequest.getPassword(), user.getPassword());
 

@@ -3,15 +3,15 @@ package com.splitscale.shield.endpoints.auth;
 import java.io.IOException;
 
 import com.splitscale.fordastore.core.user.UserRequest;
-import com.splitscale.fordastore.core.user.register.RegisterInteractor;
+import com.splitscale.fordastore.core.user.add.AddUserInteractor;
 import com.splitscale.shield.password.PasswordHasher;
 import com.splitscale.shield.validator.UserRequestValidator;
 
 public class RegisterEndpoint {
-  private RegisterInteractor registerInteractor;
+  private AddUserInteractor addUserInteractor;
 
-  public RegisterEndpoint(RegisterInteractor registerInteractor) {
-    this.registerInteractor = registerInteractor;
+  public RegisterEndpoint(AddUserInteractor addUserInteractor) {
+    this.addUserInteractor = addUserInteractor;
   }
 
   public void register(UserRequest userRequest) throws IllegalArgumentException, IOException {
@@ -21,6 +21,6 @@ public class RegisterEndpoint {
     String hashedPassword = PasswordHasher.encrypt(userRequest.getPassword());
     userRequest.setPassword(hashedPassword);
 
-    registerInteractor.register(userRequest);
+    addUserInteractor.add(userRequest);
   }
 }
