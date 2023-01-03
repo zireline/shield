@@ -2,35 +2,68 @@ package com.splitscale.shield.endpoints.container.read;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.splitscale.fordastore.core.container.Container;
+import com.splitscale.fordastore.core.container.ContainerResponse;
 import com.splitscale.fordastore.core.container.read.ReadContainerInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 
 public class ReadContainerEndpoint {
   private ReadContainerInteractor readContainerInteractor;
-  
+
   public ReadContainerEndpoint(ReadContainerInteractor readContainerInteractor) {
     this.readContainerInteractor = readContainerInteractor;
   }
 
-  public List<Container> readListByUid(String uid, String jwsToken) throws IOException, GeneralSecurityException {
+  public List<ContainerResponse> readListByUid(String uid, String jwsToken)
+      throws IOException, GeneralSecurityException {
 
     ShieldJws.validateJws(jwsToken);
 
-    return readContainerInteractor.readListByUid(uid);
+    List<ContainerResponse> responses = new ArrayList<ContainerResponse>();
+    List<Container> containers = readContainerInteractor.readListByUid(uid);
+
+    for (Container container : containers) {
+      ContainerResponse containerResponse = new ContainerResponse();
+      containerResponse.setContainerID(container.getContainerID());
+      containerResponse.setName(container.getName());
+
+      responses.add(containerResponse);
+    }
+
+    return responses;
   }
 
-  public List<Container> readListByName(String name, String jwsToken) throws IOException, GeneralSecurityException {
+  public List<ContainerResponse> readListByName(String name, String jwsToken)
+      throws IOException, GeneralSecurityException {
     ShieldJws.validateJws(jwsToken);
 
-    return readContainerInteractor.readListByName(name);
+    List<ContainerResponse> responses = new ArrayList<ContainerResponse>();
+    List<Container> containers = readContainerInteractor.readListByName(name);
+
+    for (Container container : containers) {
+      ContainerResponse containerResponse = new ContainerResponse();
+      containerResponse.setContainerID(container.getContainerID());
+      containerResponse.setName(container.getName());
+
+      responses.add(containerResponse);
+    }
+
+    return responses;
   }
 
-  public Container readByContainerId(Long containerId, String jwsToken) throws IOException, GeneralSecurityException {
+  public ContainerResponse readByContainerId(Long containerId, String jwsToken)
+      throws IOException, GeneralSecurityException {
     ShieldJws.validateJws(jwsToken);
 
-    return readContainerInteractor.getByContainerId(containerId);
+    Container container = readContainerInteractor.getByContainerId(containerId);
+
+    ContainerResponse containerResponse = new ContainerResponse();
+    containerResponse.setContainerID(container.getContainerID());
+    containerResponse.setName(container.getName());
+
+    return containerResponse;
   }
 }
