@@ -3,7 +3,6 @@ package com.splitscale.shield.endpoints.container.delete;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-import com.splitscale.fordastore.core.container.ContainerRequest;
 import com.splitscale.fordastore.core.container.delete.DeleteContainerInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 

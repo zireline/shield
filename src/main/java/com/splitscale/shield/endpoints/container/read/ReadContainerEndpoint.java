@@ -2,7 +2,9 @@ package com.splitscale.shield.endpoints.container.read;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
 
+import com.splitscale.fordastore.core.container.Container;
 import com.splitscale.fordastore.core.container.read.ReadContainerInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 
@@ -13,22 +15,22 @@ public class ReadContainerEndpoint {
     this.readContainerInteractor = readContainerInteractor;
   }
 
-  public void readListByUid(String uid, String jwsToken) throws IOException, GeneralSecurityException {
+  public List<Container> readListByUid(String uid, String jwsToken) throws IOException, GeneralSecurityException {
 
     ShieldJws.validateJws(jwsToken);
 
-    readContainerInteractor.readListByUid(uid);
+    return readContainerInteractor.readListByUid(uid);
   }
 
-  public void readListByName(String name, String jwsToken) throws IOException, GeneralSecurityException {
+  public List<Container> readListByName(String name, String jwsToken) throws IOException, GeneralSecurityException {
     ShieldJws.validateJws(jwsToken);
 
-    readContainerInteractor.readListByName(name);
+    return readContainerInteractor.readListByName(name);
   }
 
-  public void readByContainerId(Long containerId, String jwsToken) throws IOException, GeneralSecurityException {
+  public Container readByContainerId(Long containerId, String jwsToken) throws IOException, GeneralSecurityException {
     ShieldJws.validateJws(jwsToken);
 
-    readContainerInteractor.getByContainerId(containerId);
+    return readContainerInteractor.getByContainerId(containerId);
   }
 }
