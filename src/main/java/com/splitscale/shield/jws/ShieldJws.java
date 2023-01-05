@@ -43,10 +43,14 @@ public class ShieldJws {
         throw new Exception("Old token");
       }
 
-    } catch (Exception e) {
+    } catch (IllegalArgumentException e) {
       System.out.println("[ShieldJws] Error: " + e.getMessage());
 
       throw new GeneralSecurityException("Invalid authorization token");
+    } catch (Exception e) {
+      System.out.println("[ShieldJws] Error: " + e.getMessage());
+
+      throw new GeneralSecurityException("Token Expired");
     }
   }
 
