@@ -44,7 +44,7 @@ public class ShieldJws {
           .parseClaimsJws(jws)
           .getBody();
 
-      if (body.getExpiration().before(currentDate)) {
+      if (body.getExpiration().after(currentDate)) {
         throw new Exception("Expired token");
       }
 
