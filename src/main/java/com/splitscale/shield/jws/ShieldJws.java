@@ -24,28 +24,32 @@ public class ShieldJws {
     String issuer = jwsConfig.getIssuer();
     SecretKey secretKey = jwsConfig.getSigningKey();
 
+    // minutes
+    Long MinutesInSeconds = 100L * 60L;
+
     System.out.println("[ShieldJws] Issuer: " + issuer);
     System.out.println("[ShieldJws] SigningKey: " + secretKey.getAlgorithm());
     System.out.println("[ShieldJws] JWS TOKEN: " + jws);
 
     try {
-      // final Claims body = Jwts.parserBuilder()
-      // .requireIssuer(issuer)
-      // .setSigningKey(secretKey)
-      // .build()
-      // .parseClaimsJws(jws)
-      // .getBody();
-
-      // if (body.getExpiration().before(currentDate)) {
-      // throw new Exception("Expired token");
-      // }
-
-      // if (body.getNotBefore().after(currentDate)) {
-      // throw new Exception("Old token");
-      // }
-
       if (jws.isEmpty()) {
         throw new Exception("Token is empty");
+      }
+
+      final Claims body = Jwts.parserBuilder()
+          .setAllowedClockSkewSeconds(MinutesInSeconds)
+          .requireIssuer(issuer)
+          .setSigningKey(secretKey)
+          .build()
+          .parseClaimsJws(jws)
+          .getBody();
+
+      if (body.getExpiration().before(currentDate)) {
+        throw new Exception("Expired token");
+      }
+
+      if (body.getNotBefore().after(currentDate)) {
+        throw new Exception("Old token");
       }
 
     } catch (IllegalArgumentException e) {
