@@ -36,7 +36,7 @@ public class ShieldJws {
         throw new Exception("Token is empty");
       }
 
-      final Claims body = Jwts.parserBuilder()
+      Jwts.parserBuilder()
           .setAllowedClockSkewSeconds(MinutesInSeconds)
           .requireIssuer(issuer)
           .setSigningKey(secretKey)
@@ -44,13 +44,13 @@ public class ShieldJws {
           .parseClaimsJws(jws)
           .getBody();
 
-      if (body.getExpiration().after(currentDate)) {
-        throw new Exception("Expired token");
-      }
+      // if (body.getExpiration().after(currentDate)) {
+      // throw new Exception("Expired token");
+      // }
 
-      if (body.getNotBefore().after(currentDate)) {
-        throw new Exception("Old token");
-      }
+      // if (body.getNotBefore().after(currentDate)) {
+      // throw new Exception("Old token");
+      // }
 
     } catch (IllegalArgumentException e) {
       System.out.println("[ShieldJws] Error: " + e.getMessage());
