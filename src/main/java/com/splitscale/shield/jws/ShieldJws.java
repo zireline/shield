@@ -4,6 +4,8 @@ import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.crypto.SecretKey;
+
 import com.splitscale.shield.jws.config.JwsProps;
 import com.splitscale.shield.jws.config.JwsPropsLoader;
 
@@ -19,23 +21,31 @@ public class ShieldJws {
 
   public static void validateJws(String jws) throws GeneralSecurityException {
     Date currentDate = new Date();
+    String issuer = jwsConfig.getIssuer();
+    SecretKey secretKey = jwsConfig.getSigningKey();
+
+    System.out.println("[ShieldJws] Issuer: " + issuer);
+    System.out.println("[ShieldJws] SigningKey: " + secretKey.getAlgorithm());
 
     try {
       final Claims body = Jwts.parserBuilder()
-          .requireIssuer(jwsConfig.getIssuer())
-          .setSigningKey(jwsConfig.getSigningKey())
+          .requireIssuer(issuer)
+          .setSigningKey(secretKey)
           .build()
           .parseClaimsJws(jws)
           .getBody();
 
-      boolean expiration = body.getExpiration().before(currentDate);
-      boolean notBefore = body.getNotBefore().after(currentDate);
+      if (body.getExpiration().before(currentDate)) {
+        throw new Exception("Expired token");
+      }
 
-      if (notBefore || expiration) {
-        throw new Exception();
+      if (body.getNotBefore().after(currentDate)) {
+        throw new Exception("Old token");
       }
 
     } catch (Exception e) {
+      System.out.println("[ShieldJws] Error: " + e.getMessage());
+
       throw new GeneralSecurityException("Invalid authorization token");
     }
   }
