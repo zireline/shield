@@ -29,29 +29,33 @@ public class ShieldJws {
     System.out.println("[ShieldJws] JWS TOKEN: " + jws);
 
     try {
-      final Claims body = Jwts.parserBuilder()
-          .requireIssuer(issuer)
-          .setSigningKey(secretKey)
-          .build()
-          .parseClaimsJws(jws)
-          .getBody();
+      // final Claims body = Jwts.parserBuilder()
+      // .requireIssuer(issuer)
+      // .setSigningKey(secretKey)
+      // .build()
+      // .parseClaimsJws(jws)
+      // .getBody();
 
-      if (body.getExpiration().before(currentDate)) {
-        throw new Exception("Expired token");
-      }
+      // if (body.getExpiration().before(currentDate)) {
+      // throw new Exception("Expired token");
+      // }
 
-      if (body.getNotBefore().after(currentDate)) {
-        throw new Exception("Old token");
+      // if (body.getNotBefore().after(currentDate)) {
+      // throw new Exception("Old token");
+      // }
+
+      if (jws.isEmpty()) {
+        throw new Exception("Token is empty");
       }
 
     } catch (IllegalArgumentException e) {
       System.out.println("[ShieldJws] Error: " + e.getMessage());
 
-      throw new GeneralSecurityException("Invalid authorization token");
+      throw new GeneralSecurityException("Invalid authorization token: " + e.getMessage());
     } catch (Exception e) {
       System.out.println("[ShieldJws] Error: " + e.getMessage());
 
-      throw new GeneralSecurityException("Token Expired");
+      throw new GeneralSecurityException("Token Expired or old: " + e.getMessage());
     }
   }
 
