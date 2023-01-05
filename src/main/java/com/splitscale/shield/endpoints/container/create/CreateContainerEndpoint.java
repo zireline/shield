@@ -5,6 +5,7 @@ import java.security.GeneralSecurityException;
 
 import com.splitscale.fordastore.core.container.Container;
 import com.splitscale.fordastore.core.container.ContainerRequest;
+import com.splitscale.fordastore.core.container.ContainerResponse;
 import com.splitscale.fordastore.core.container.create.CreateContainerInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 
@@ -15,11 +16,13 @@ public class CreateContainerEndpoint {
     this.createContainerInteractor = createContainerInteractor;
   }
 
-  public Container create(ContainerRequest containerRequest, String jwsToken)
+  public ContainerResponse create(ContainerRequest containerRequest, String jwsToken)
       throws IOException, GeneralSecurityException {
 
     ShieldJws.validateJws(jwsToken);
 
-    return createContainerInteractor.createContainer(containerRequest);
+    Container container = createContainerInteractor.createContainer(containerRequest);
+
+    return new ContainerResponse(container.getContainerID(), container.getName());
   }
 }
