@@ -26,6 +26,7 @@ public class ShieldJws {
 
     System.out.println("[ShieldJws] Issuer: " + issuer);
     System.out.println("[ShieldJws] SigningKey: " + secretKey.getAlgorithm());
+    System.out.println("[ShieldJws] JWS TOKEN: " + jws);
 
     try {
       final Claims body = Jwts.parserBuilder()
