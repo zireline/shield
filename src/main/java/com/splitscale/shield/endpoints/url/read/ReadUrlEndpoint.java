@@ -35,10 +35,16 @@ public class ReadUrlEndpoint {
 
   }
 
-  public Url getByUrlID(Long urlId, String jwsToken) throws IOException, GeneralSecurityException {
+  public UrlResponse getByUrlID(Long urlId, String jwsToken) throws IOException, GeneralSecurityException {
 
     ShieldJws.validateJws(jwsToken);
 
-    return readUrlInteractor.getByUrlID(urlId);
+    Url url = readUrlInteractor.getByUrlID(urlId);
+
+    UrlResponse urlResponse = new UrlResponse();
+    urlResponse.setUrlID(url.getUrlID());
+    urlResponse.setInnerUrl(url.getInnerUrl());
+
+    return urlResponse;
   }
 }
