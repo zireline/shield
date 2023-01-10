@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 import com.splitscale.fordastore.core.container.Container;
+import com.splitscale.fordastore.core.container.ContainerRequest;
 import com.splitscale.fordastore.core.container.edit.EditContainerInteractor;
 import com.splitscale.shield.jws.ShieldJws;
 
@@ -14,10 +15,11 @@ public class EditContainerEndpoint {
     this.editContainerInteractor = editContainerInteractor;
   }
 
-  public void edit(Container container, String jwsToken) throws IOException, GeneralSecurityException {
+  public void edit(ContainerRequest containerRequest, Long containerId, String jwsToken)
+      throws IOException, GeneralSecurityException {
 
     ShieldJws.validateJws(jwsToken);
 
-    editContainerInteractor.editContainer(container);
+    editContainerInteractor.editContainer(containerRequest, containerId);
   }
 }
