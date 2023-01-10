@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class JwsPropsLoader {
-  private static String path = "src/main/resources/jws.properties";
+  private static String path = "./jws.properties";
 
   private JwsPropsLoader() {
     // default
