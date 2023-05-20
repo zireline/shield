@@ -4,6 +4,9 @@
     "fordastore",
     "Hasher",
     "hashtext",
-    "Sekyur"
+    "Interactor",
+    "Jwts",
+    "Sekyur",
+    "splitscale"
   ]
 }
