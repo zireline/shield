@@ -1,6 +1,9 @@
 package com.splitscale.shield.user.read;
 
+import java.io.IOException;
+
 import com.splitscale.shield.user.User;
+import com.splitscale.shield.user.repository.ObjectNotFoundException;
 import com.splitscale.shield.user.repository.UserRepository;
 
 public class ReadUserInteractor {
@@ -10,7 +13,11 @@ public class ReadUserInteractor {
     this.repository = repository;
   }
 
-  public User getByUsername(String username) {
-    return repository.getByUsername(username);
+  public User getByUsername(String username) throws IOException {
+    try {
+      return repository.getByUsername(username);
+    } catch (ObjectNotFoundException e) {
+      return new User(null, null, null);
+    }
   }
 }

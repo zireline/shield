@@ -12,7 +12,7 @@ public class ValidateJwt {
     this.provider = provider;
   }
 
-  public void validate(String jwtToken, String id) throws GeneralSecurityException, IOException {
-    provider.validateJwt(jwtToken, id);
+  public ValidJwtResponse validate(String jwtToken, String id) throws GeneralSecurityException, IOException {
+    return provider.validateJwt(jwtToken, id);
   }
 }

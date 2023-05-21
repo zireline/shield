@@ -16,17 +16,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonFileManagerTest {
-  private static final Path TEST_DIR_PATH = Path.of(getUsersDir());
+  private static final Path TEST_DIR_PATH = Path.of("src", "test", "resources", "users");
   private JsonFileManager jsonFileManager;
 
   @BeforeEach
   public void setUp() {
     Gson gson = new Gson();
-    try {
-      jsonFileManager = new JsonFileManager(gson, TEST_DIR_PATH);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    jsonFileManager = new JsonFileManager(gson, TEST_DIR_PATH);
   }
 
   @AfterEach
@@ -88,19 +84,5 @@ public class JsonFileManagerTest {
     // Read all users
     List<User> users = jsonFileManager.getAll();
     assertEquals(3, users.size());
-  }
-
-  private static String getUsersDir() {
-    String currentDir = System.getProperty("user.dir");
-    String fileSeparator = System.getProperty("file.separator");
-    return (currentDir +
-        fileSeparator +
-        "src" +
-        fileSeparator +
-        "test" +
-        fileSeparator +
-        "resources" +
-        fileSeparator +
-        "users");
   }
 }
