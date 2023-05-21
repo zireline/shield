@@ -3,6 +3,7 @@ package com.splitscale.shield.login;
 import com.splitscale.shield.jwt.get.GetJwt;
 import com.splitscale.shield.user.UserRequest;
 import com.splitscale.shield.user.UserResponse;
+import com.splitscale.shield.user.repository.ObjectNotFoundException;
 import com.splitscale.shield.user.workflows.login.LoginWorkflow;
 import io.jsonwebtoken.security.InvalidKeyException;
 import java.io.IOException;
@@ -18,8 +19,8 @@ public class Login {
   }
 
   public LoginResponse loginUser(UserRequest request)
-    throws InvalidKeyException, IOException {
-      
+      throws InvalidKeyException, IOException, ObjectNotFoundException {
+
     UserResponse userResponse = workflow.login(request);
     String token = provider.get(userResponse.getId());
     return new LoginResponse(token, userResponse);

@@ -8,8 +8,17 @@
   <artifactId>shield</artifactId>
   <version>1.0</version>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub splitscale Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/splitscale/shield</url>
+    </repository>
+  </distributionManagement>
+
+
   <name>shield</name>
-  <url>#</url>
+  <url>http://splitscale.systems</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,13 +27,13 @@
   </properties>
 
   <dependencies>
+
     <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
     </dependency>
-    
 
     <dependency>
       <groupId>io.jsonwebtoken</groupId>

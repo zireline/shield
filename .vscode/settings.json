@@ -8,5 +8,6 @@
     "Jwts",
     "Sekyur",
     "splitscale"
-  ]
+  ],
+  "java.compile.nullAnalysis.mode": "automatic"
 }

@@ -1,4 +1,4 @@
-package com.splitscale.shield.jwt.validate;
+package com.splitscale.shield.validate;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -12,7 +12,7 @@ public class ValidateJwt {
     this.provider = provider;
   }
 
-  public void validate(String jwtToken, String id) throws GeneralSecurityException, IOException {
-    provider.validateJwt(jwtToken, id);
+  public ValidJwtResponse validate(String jwtToken, String id) throws GeneralSecurityException, IOException {
+    return provider.validateJwt(jwtToken, id);
   }
 }

@@ -13,13 +13,14 @@ public class JsonFileManager {
   private final Gson gson;
   private final Path directoryPath;
 
-  public JsonFileManager(Gson gson, Path directoryPath) throws IOException {
+  public JsonFileManager(Gson gson, Path directoryPath) {
     this.gson = gson;
     this.directoryPath = directoryPath;
-    createDirectoryIfNotExists(directoryPath);
   }
 
   public void create(User user) throws IOException {
+    createDirectoryIfNotExists(directoryPath);
+
     Path filePath = getUserFilePath(user.getId());
     String json = gson.toJson(user);
     Files.write(filePath, json.getBytes());
