@@ -7,21 +7,21 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.splitscale.shield.Shield;
-import com.splitscale.shield.jwt.validate.ValidJwtResponse;
+import com.splitscale.shield.validate.ValidJwtResponse;
 import com.splitscale.shield.login.LoginResponse;
 import com.splitscale.shield.user.UserRequest;
 import com.splitscale.shield.user.repository.ObjectNotFoundException;
 
-@SpringBootTest
 public class ShieldTest {
 
-  @Autowired
-  private Shield shield;
+  @BeforeAll
+  static void setup() {
+    Shield.initialize();
+  }
 
   @Test
   public void testRegisterUser() throws InvalidKeyException, IOException {
@@ -29,7 +29,7 @@ public class ShieldTest {
     UserRequest request = new UserRequest("joejoe", "password");
 
     // Verify that no exceptions are thrown
-    assertDoesNotThrow(() -> shield.registerUser(request));
+    assertDoesNotThrow(() -> Shield.registerUser(request));
   }
 
   @Test
@@ -38,7 +38,7 @@ public class ShieldTest {
     UserRequest request = new UserRequest("joejoe", "password");
 
     // Verify that no exceptions are thrown
-    assertDoesNotThrow(() -> System.out.println(shield.loginUser(request).getToken()));
+    assertDoesNotThrow(() -> System.out.println(Shield.loginUser(request).getToken()));
   }
 
   @Test
@@ -46,10 +46,10 @@ public class ShieldTest {
     // Prepare test data
     UserRequest request = new UserRequest("joejoe", "password");
 
-    LoginResponse response = shield.loginUser(request);
+    LoginResponse response = Shield.loginUser(request);
 
     // Verify that no exceptions are thrown
-    ValidJwtResponse validJwt = shield.validateJwt(response.getToken(), response.getUserResponse().getId());
+    ValidJwtResponse validJwt = Shield.validateJwt(response.getToken(), response.getUserResponse().getId());
     assertNotNull(validJwt);
 
     System.out.println(validJwt.getToken());
@@ -65,9 +65,9 @@ public class ShieldTest {
     // Prepare test data
     UserRequest request = new UserRequest("joejoe", "password");
 
-    LoginResponse response = shield.loginUser(request);
+    LoginResponse response = Shield.loginUser(request);
 
-    String invalidJwt = shield.inValidateJwt(response.getToken());
+    String invalidJwt = Shield.inValidateJwt(response.getToken());
     assertNotNull(invalidJwt);
 
     System.out.println("Invalid Jwt: " + invalidJwt);

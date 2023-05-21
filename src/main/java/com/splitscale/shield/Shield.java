@@ -3,11 +3,13 @@ package com.splitscale.shield;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-import org.springframework.stereotype.Component;
-
-import com.splitscale.shield.jwt.invalidate.InvalidateJwt;
-import com.splitscale.shield.jwt.validate.ValidJwtResponse;
-import com.splitscale.shield.jwt.validate.ValidateJwt;
+import com.splitscale.shield.config.InValidateJwtConfig;
+import com.splitscale.shield.config.LoginConfig;
+import com.splitscale.shield.config.RegisterConfig;
+import com.splitscale.shield.config.ValidateJwtConfig;
+import com.splitscale.shield.invalidate.InvalidateJwt;
+import com.splitscale.shield.validate.ValidJwtResponse;
+import com.splitscale.shield.validate.ValidateJwt;
 import com.splitscale.shield.login.Login;
 import com.splitscale.shield.login.LoginResponse;
 import com.splitscale.shield.register.Register;
@@ -16,33 +18,34 @@ import com.splitscale.shield.user.repository.ObjectNotFoundException;
 
 import io.jsonwebtoken.security.InvalidKeyException;
 
-@Component
 public class Shield {
-  private Login login;
-  private Register register;
-  private ValidateJwt validateJwt;
-  private InvalidateJwt invalidateJwt;
+  private static Login login;
+  private static Register register;
+  private static ValidateJwt validateJwt;
+  private static InvalidateJwt invalidateJwt;
 
-  public Shield(Login login, Register register, ValidateJwt validateJwt, InvalidateJwt invalidateJwt) {
-    this.login = login;
-    this.register = register;
-    this.validateJwt = validateJwt;
-    this.invalidateJwt = invalidateJwt;
+  public static void initialize() {
+    login = LoginConfig.getLogin();
+    register = RegisterConfig.getRegister();
+    validateJwt = ValidateJwtConfig.getValidateJwt();
+    invalidateJwt = InValidateJwtConfig.getInValidateJwt();
   }
 
-  public LoginResponse loginUser(UserRequest request) throws InvalidKeyException, IOException, ObjectNotFoundException {
+  public static LoginResponse loginUser(UserRequest request)
+      throws InvalidKeyException, IOException, ObjectNotFoundException {
     return login.loginUser(request);
   }
 
-  public void registerUser(UserRequest request) throws InvalidKeyException, IOException {
+  public static void registerUser(UserRequest request) throws InvalidKeyException, IOException {
     register.registerUser(request);
   }
 
-  public ValidJwtResponse validateJwt(String jwtToken, String userId) throws GeneralSecurityException, IOException {
+  public static ValidJwtResponse validateJwt(String jwtToken, String userId)
+      throws GeneralSecurityException, IOException {
     return validateJwt.validate(jwtToken, userId);
   }
 
-  public String inValidateJwt(String jwtToken) throws GeneralSecurityException {
+  public static String inValidateJwt(String jwtToken) throws GeneralSecurityException {
     return invalidateJwt.invalidate(jwtToken);
   }
 }

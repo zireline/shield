@@ -1,15 +1,16 @@
 package com.splitscale.shield.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.splitscale.shield.jwt.JwtProvider;
-import com.splitscale.shield.jwt.validate.ValidateJwt;
+import com.splitscale.shield.validate.ValidateJwt;
 
-@Configuration
 public class ValidateJwtConfig {
-  @Bean
-  ValidateJwt getValidateJwt(JwtProvider provider) {
+
+  private ValidateJwtConfig() {
+    // default
+  }
+
+  public static ValidateJwt getValidateJwt() {
+    JwtProvider provider = JwtConfig.getJwtProvider();
     return new ValidateJwt(provider);
   }
 }
