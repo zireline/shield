@@ -23,9 +23,8 @@ public class EnvFileHandlerTest {
   @Test
   public void testHandleEnvFile() throws IOException {
     EnvFileHandler envFileHandler = new EnvFileHandler(
-      ENV_FILE_PATH,
-      SIGNING_KEY_VARIABLE
-    );
+        ENV_FILE_PATH,
+        SIGNING_KEY_VARIABLE);
 
     // Ensure the env file doesn't exist initially
     Assertions.assertFalse(new File(ENV_FILE_PATH).exists());
@@ -47,15 +46,13 @@ public class EnvFileHandlerTest {
     // Write the signing key to the temp env file
     String signingKey = "abc123";
     try (
-      BufferedWriter writer = new BufferedWriter(new FileWriter(tempEnvFile))
-    ) {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempEnvFile))) {
       writer.write(SIGNING_KEY_VARIABLE + "=" + signingKey);
     }
 
     EnvFileHandler envFileHandler = new EnvFileHandler(
-      ENV_FILE_PATH,
-      SIGNING_KEY_VARIABLE
-    );
+        ENV_FILE_PATH,
+        SIGNING_KEY_VARIABLE);
 
     // Call the getSigningKeyFromEnvFile method
     String retrievedSigningKey = envFileHandler.getSigningKeyFromEnvFile();
@@ -67,16 +64,14 @@ public class EnvFileHandlerTest {
   private static String getEnvFilePath() {
     String currentDir = System.getProperty("user.dir");
     String fileSeparator = System.getProperty("file.separator");
-    return (
-      currentDir +
-      fileSeparator +
-      "src" +
-      fileSeparator +
-      "main" +
-      fileSeparator +
-      "resources" +
-      fileSeparator +
-      "test.env"
-    );
+    return (currentDir +
+        fileSeparator +
+        "src" +
+        fileSeparator +
+        "test" +
+        fileSeparator +
+        "resources" +
+        fileSeparator +
+        "test.env");
   }
 }
