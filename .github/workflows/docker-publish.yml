@@ -14,6 +14,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: Remove .gitignore file
+        run: rm .gitignore
+
       - name: Set up Docker
         run: |
           sudo apt-get remove docker docker-engine docker.io containerd runc
