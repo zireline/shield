@@ -35,9 +35,11 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
           
       - name: Check Workflow Status
+        if: ${{ success() }}
         run: |
-            if [[ ${{ success() }} == "true" ]]; then
-              curl -X POST -H "Content-Type: application/json" -d '{"title":"'${{ env.IMAGE_NAME }}'","content":{"status":"passed","info":"'${{ env.NOTIFICATION_INFO }}'"}}' ${{ env.NOTIFICATION_URL }}
-            else
-              curl -X POST -H "Content-Type: application/json" -d '{"title":"'${{ env.IMAGE_NAME }}'","content":{"status":"failed","info":"'${{ env.NOTIFICATION_INFO }}'"}}' ${{ env.NOTIFICATION_URL }}
-            fi
+          curl -X POST -H "Content-Type: application/json" -d '{"title":"'${{ env.IMAGE_NAME }}'","content":{"status":"passed","info":"'${{ env.NOTIFICATION_INFO }}'"}}' ${{ env.NOTIFICATION_URL }}
+      
+      - name: The job has failed
+        if: ${{ failure() }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{"title":"'${{ env.IMAGE_NAME }}'","content":{"status":"failed","info":"'${{ env.NOTIFICATION_INFO }}'"}}' ${{ env.NOTIFICATION_URL }}
