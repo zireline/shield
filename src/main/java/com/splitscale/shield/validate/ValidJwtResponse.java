@@ -1,4 +1,4 @@
-package com.splitscale.shield.jwt.validate;
+package com.splitscale.shield.validate;
 
 import io.jsonwebtoken.Claims;
 

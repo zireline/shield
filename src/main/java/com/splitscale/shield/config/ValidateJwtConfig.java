@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.splitscale.shield.jwt.JwtProvider;
-import com.splitscale.shield.jwt.validate.ValidateJwt;
+import com.splitscale.shield.validate.ValidateJwt;
 
 @Configuration
 public class ValidateJwtConfig {

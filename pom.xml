@@ -49,6 +49,13 @@
       <version>3.1.0</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -156,6 +163,11 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
       </plugins>
     </pluginManagement>

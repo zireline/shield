@@ -5,9 +5,9 @@ import java.security.GeneralSecurityException;
 
 import org.springframework.stereotype.Component;
 
-import com.splitscale.shield.jwt.invalidate.InvalidateJwt;
-import com.splitscale.shield.jwt.validate.ValidJwtResponse;
-import com.splitscale.shield.jwt.validate.ValidateJwt;
+import com.splitscale.shield.invalidate.InvalidateJwt;
+import com.splitscale.shield.validate.ValidJwtResponse;
+import com.splitscale.shield.validate.ValidateJwt;
 import com.splitscale.shield.login.Login;
 import com.splitscale.shield.login.LoginResponse;
 import com.splitscale.shield.register.Register;

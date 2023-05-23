@@ -1,4 +1,4 @@
-package com.splitscale.shield.jwt.invalidate;
+package com.splitscale.shield.invalidate;
 
 import java.security.GeneralSecurityException;
 

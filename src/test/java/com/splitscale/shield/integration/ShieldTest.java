@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.splitscale.shield.Shield;
-import com.splitscale.shield.jwt.validate.ValidJwtResponse;
+import com.splitscale.shield.validate.ValidJwtResponse;
 import com.splitscale.shield.login.LoginResponse;
 import com.splitscale.shield.user.UserRequest;
 import com.splitscale.shield.user.repository.ObjectNotFoundException;

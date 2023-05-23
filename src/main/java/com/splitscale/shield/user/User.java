@@ -6,6 +6,10 @@ public class User {
   private String username;
   private String password;
 
+  public User() {
+    // Default constructor
+  }
+
   public User(String id, String username, String password) {
     this.id = id;
     this.username = username;
