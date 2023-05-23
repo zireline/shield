@@ -2,8 +2,11 @@ FROM openjdk:17
 
 WORKDIR /app
 
-COPY target/shield-1.0.jar /app
+# Build the application using Maven
+RUN mvn clean package
+
+COPY target/**.jar /app
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "shield-1.0.jar"]
+CMD ["java", "-jar", "**.jar"]
