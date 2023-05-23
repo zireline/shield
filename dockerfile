@@ -1,5 +1,5 @@
 # Use a multi-stage build to reduce the final image size
-FROM maven:3.8.4-jdk-17 as builder
+FROM maven:3.8.5-openjdk-17 as builder
 
 # Set the working directory
 WORKDIR /app
