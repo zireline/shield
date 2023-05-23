@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - 'master'
-
+env:
+  IMAGE_NAME: kasutu/shield
+  
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -24,6 +26,5 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
           push: true
-          tags: kasutu/shield:latest
+          tags: ${{ env.IMAGE_NAME }}:latest
