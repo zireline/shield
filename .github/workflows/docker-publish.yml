@@ -6,6 +6,8 @@ on:
       - 'master'
 env:
   IMAGE_NAME: shield
+  NOTIFICATION_URL: "http://splitscale.systems:3030/notifications"
+  NOTIFICATION_INFO: "Build Docker Image"
   
 jobs:
   build:
@@ -31,3 +33,11 @@ jobs:
           file: ./dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          
+      - name: Check Workflow Status
+        run: |
+            if [[ ${{ success() }} == "true" ]]; then
+              curl -X POST -H "Content-Type: application/json" -d '{"title":"'${{ env.IMAGE_NAME }}'","content":{"status":"passed","info":"'${{ env.NOTIFICATION_INFO }}'"}}' ${{ env.NOTIFICATION_URL }}
+            else
+              curl -X POST -H "Content-Type: application/json" -d '{"title":"'${{ env.IMAGE_NAME }}'","content":{"status":"failed","info":"'${{ env.NOTIFICATION_INFO }}'"}}' ${{ env.NOTIFICATION_URL }}
+            fi
