@@ -2,7 +2,7 @@ FROM openjdk:17
 
 WORKDIR /app
 
-COPY ./target/shield-1.0.jar /app
+COPY shield-1.0.jar /app
 
 EXPOSE 8080
 
