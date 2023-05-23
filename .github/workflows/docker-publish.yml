@@ -36,7 +36,7 @@ jobs:
       - name: Check if job suceeded
         if: ${{ success() }}
         run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.IMAGE_NAME }}\",\"content\":{\"status\":\"passed\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
+          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.IMAGE_NAME }}\",\"content\":{\"status\":\"deployed\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
 
       - name: Check if job failed
         if: ${{ failure() }}
