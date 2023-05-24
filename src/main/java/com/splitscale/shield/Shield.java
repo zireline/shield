@@ -14,8 +14,6 @@ import com.splitscale.shield.register.Register;
 import com.splitscale.shield.user.UserRequest;
 import com.splitscale.shield.user.repository.ObjectNotFoundException;
 
-import io.jsonwebtoken.security.InvalidKeyException;
-
 @Component
 public class Shield {
   private Login login;
@@ -30,11 +28,12 @@ public class Shield {
     this.invalidateJwt = invalidateJwt;
   }
 
-  public LoginResponse loginUser(UserRequest request) throws InvalidKeyException, IOException, ObjectNotFoundException {
+  public LoginResponse loginUser(UserRequest request)
+      throws IllegalArgumentException, IOException, ObjectNotFoundException {
     return login.loginUser(request);
   }
 
-  public String registerUser(UserRequest request) throws InvalidKeyException, IOException {
+  public String registerUser(UserRequest request) throws IllegalArgumentException, IOException {
     return register.registerUser(request);
   }
 

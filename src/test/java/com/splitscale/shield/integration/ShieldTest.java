@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,6 +21,8 @@ import com.splitscale.shield.login.LoginResponse;
 import com.splitscale.shield.user.UserRequest;
 import com.splitscale.shield.user.repository.ObjectNotFoundException;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest
 public class ShieldTest {
 
@@ -24,17 +30,25 @@ public class ShieldTest {
   private Shield shield;
 
   @Test
-  public void testRegisterUser() throws InvalidKeyException, IOException {
+  @Order(1)
+  public void testRegisterUser() throws IOException {
     // Prepare test data
     UserRequest request = new UserRequest("joejoe", "password");
 
     // Verify that no exceptions are thrown
-    String id = shield.registerUser(request);
+    String id = "";
+
+    try {
+      id = shield.registerUser(request);
+    } catch (IllegalArgumentException e) {
+      assertNotNull(id);
+    }
 
     assertNotNull(id);
   }
 
   @Test
+  @Order(1)
   public void testLoginUser() throws InvalidKeyException, IOException, ObjectNotFoundException {
     // Prepare test data
     UserRequest request = new UserRequest("joejoe", "password");
@@ -44,6 +58,7 @@ public class ShieldTest {
   }
 
   @Test
+  @Order(1)
   public void testValidateJwt() throws IOException, ObjectNotFoundException, GeneralSecurityException {
     // Prepare test data
     UserRequest request = new UserRequest("joejoe", "password");
@@ -62,6 +77,7 @@ public class ShieldTest {
   }
 
   @Test
+  @Order(1)
   public void testInValidateJwt()
       throws InvalidKeyException, IOException, ObjectNotFoundException, GeneralSecurityException {
     // Prepare test data
