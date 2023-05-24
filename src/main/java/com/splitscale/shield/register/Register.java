@@ -13,11 +13,7 @@ public class Register {
     this.workflow = workflow;
   }
 
-  public void registerUser(UserRequest request) throws IOException {
-    try {
-      workflow.register(request);
-    } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
-    }
+  public String registerUser(UserRequest request) throws IOException, IllegalArgumentException {
+    return workflow.register(request);
   }
 }

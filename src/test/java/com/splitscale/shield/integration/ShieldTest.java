@@ -29,7 +29,9 @@ public class ShieldTest {
     UserRequest request = new UserRequest("joejoe", "password");
 
     // Verify that no exceptions are thrown
-    assertDoesNotThrow(() -> shield.registerUser(request));
+    String id = shield.registerUser(request);
+
+    assertNotNull(id);
   }
 
   @Test

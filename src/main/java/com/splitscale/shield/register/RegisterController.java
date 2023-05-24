@@ -26,16 +26,21 @@ public class RegisterController {
 
   @ResponseBody
   @PostMapping("/register")
-  public ResponseEntity<Object> registerUser(@RequestBody UserRequest request)
+  public ResponseEntity<String> registerUser(@RequestBody UserRequest request)
       throws InvalidKeyException, IOException {
-    register.registerUser(request);
+    String id = register.registerUser(request);
 
-    return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>(id, HttpStatus.OK);
   }
 
   // Exception handlers
   @ExceptionHandler(IOException.class)
   public ResponseEntity<String> handleInternalServerError(IOException e) {
+    return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<String> handleInternalServerError(IllegalArgumentException e) {
     return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 

@@ -34,8 +34,8 @@ public class Shield {
     return login.loginUser(request);
   }
 
-  public void registerUser(UserRequest request) throws InvalidKeyException, IOException {
-    register.registerUser(request);
+  public String registerUser(UserRequest request) throws InvalidKeyException, IOException {
+    return register.registerUser(request);
   }
 
   public ValidJwtResponse validateJwt(String jwtToken, String userId) throws GeneralSecurityException, IOException {

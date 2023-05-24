@@ -19,7 +19,7 @@ public class RegisterWorkflow {
     this.userReader = userReader;
   }
 
-  public void register(UserRequest request) throws IOException, IllegalArgumentException {
+  public String register(UserRequest request) throws IOException, IllegalArgumentException {
     User existingUser = userReader.getByUsername(request.getUsername());
 
     if (existingUser.getId() != null) {
@@ -32,6 +32,6 @@ public class RegisterWorkflow {
     String encryptedPassword = PasswordHasher.encrypt(request.getPassword());
 
     User user = new User(uid, request.getUsername(), encryptedPassword);
-    interactor.add(user);
+    return interactor.add(user);
   }
 }
