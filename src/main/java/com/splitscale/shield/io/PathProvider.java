@@ -11,7 +11,11 @@ public class PathProvider {
     return Path.of("src", "main", "resources", "jwt.env").toString();
   }
 
-  public static Path getUsersDir() {
-    return Path.of("src", "main", "resources", "users");
+  public static Path getUserInfosDir() {
+    return Path.of("src", "main", "resources", "userInfos");
+  }
+
+  public static Path getCredentialsDir() {
+    return Path.of("src", "main", "resources", "credentials");
   }
 }

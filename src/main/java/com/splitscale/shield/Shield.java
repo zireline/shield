@@ -5,14 +5,14 @@ import java.security.GeneralSecurityException;
 
 import org.springframework.stereotype.Component;
 
-import com.splitscale.shield.invalidate.InvalidateJwt;
-import com.splitscale.shield.validate.ValidJwtResponse;
-import com.splitscale.shield.validate.ValidateJwt;
-import com.splitscale.shield.login.Login;
-import com.splitscale.shield.login.LoginResponse;
-import com.splitscale.shield.register.Register;
-import com.splitscale.shield.user.UserRequest;
-import com.splitscale.shield.user.repository.ObjectNotFoundException;
+import com.splitscale.shield.credential.CredentialRequest;
+import com.splitscale.shield.endpoints.invalidate.InvalidateJwt;
+import com.splitscale.shield.endpoints.login.Login;
+import com.splitscale.shield.endpoints.login.LoginResponse;
+import com.splitscale.shield.endpoints.register.Register;
+import com.splitscale.shield.endpoints.validate.ValidJwtResponse;
+import com.splitscale.shield.endpoints.validate.ValidateJwt;
+import com.splitscale.shield.repositories.ObjectNotFoundException;
 
 @Component
 public class Shield {
@@ -28,12 +28,12 @@ public class Shield {
     this.invalidateJwt = invalidateJwt;
   }
 
-  public LoginResponse loginUser(UserRequest request)
+  public LoginResponse loginUser(CredentialRequest request)
       throws IllegalArgumentException, IOException, ObjectNotFoundException {
     return login.loginUser(request);
   }
 
-  public String registerUser(UserRequest request) throws IllegalArgumentException, IOException {
+  public String registerUser(CredentialRequest request) throws IllegalArgumentException, IOException {
     return register.registerUser(request);
   }
 

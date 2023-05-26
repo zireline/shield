@@ -3,11 +3,12 @@ package com.splitscale.shield.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.splitscale.shield.credential.read.ReadCredentialInteractor;
+import com.splitscale.shield.endpoints.login.Login;
 import com.splitscale.shield.jwt.JwtProvider;
 import com.splitscale.shield.jwt.get.GetJwt;
-import com.splitscale.shield.login.Login;
-import com.splitscale.shield.user.read.ReadUserInteractor;
-import com.splitscale.shield.user.workflows.login.LoginWorkflow;
+import com.splitscale.shield.userinfo.read.ReadUserInfoInteractor;
+import com.splitscale.shield.workflows.login.LoginWorkflow;
 
 @Configuration
 public class LoginConfig {
@@ -27,8 +28,9 @@ public class LoginConfig {
   }
 
   @Bean
-  LoginWorkflow getLoginWorkflow(ReadUserInteractor interactor) {
-    return new LoginWorkflow(interactor);
+  LoginWorkflow getLoginWorkflow(ReadCredentialInteractor credentialInteractor,
+      ReadUserInfoInteractor userInfoInteractor) {
+    return new LoginWorkflow(credentialInteractor, userInfoInteractor);
   }
 
 }

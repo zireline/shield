@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 
-import com.splitscale.shield.validate.ValidJwtResponse;
+import com.splitscale.shield.endpoints.validate.ValidJwtResponse;
 
 public class JwtProvider {
 
