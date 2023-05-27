@@ -41,7 +41,7 @@ public class RegisterController {
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<String> handleInternalServerError(IllegalArgumentException e) {
-    return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
   }
 
   @ExceptionHandler(InvalidKeyException.class)
