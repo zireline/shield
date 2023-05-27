@@ -7,7 +7,6 @@ on:
 env:
   IMAGE_NAME: shield
   NOTIFICATION_URL: 'http://splitscale.systems:3030/notifications'
-  NOTIFICATION_INFO: 'Build Docker Image'
 
 jobs:
   build:
@@ -33,15 +32,28 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
+      - name: Set NOTIFICATION_TITLE and JOB_URL
+        run: |
+          repo_name=${{ github.repository }}
+          branch_name=${GITHUB_REF#refs/heads/}
+          title="[$repo_name:$branch_name]"
+          echo "NOTIFICATION_TITLE=$title" >> $GITHUB_ENV
+
+          server_url=${{ github.server_url }}
+          repo=${{ github.repository }}
+          run_id=${{ github.run_id }}
+          job_url="$server_url/$repo/actions/runs/$run_id"
+          echo "JOB_URL=$job_url" >> $GITHUB_ENV
+
       - name: Set NOTIFICATION_INFO
         run: echo "NOTIFICATION_INFO=${{ github.event.head_commit.message }}" >> $GITHUB_ENV
 
       - name: Check if job suceeded
         if: ${{ success() }}
         run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.IMAGE_NAME }}\",\"content\":{\"status\":\"deployed\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
+          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"[${{ env.NOTIFICATION_TITLE }}](${{ env.JOB_URL }})\",\"content\":{\"status\":\"deployed 🚀\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
 
       - name: Check if job failed
         if: ${{ failure() }}
         run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.IMAGE_NAME }}\",\"content\":{\"status\":\"failed\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
+          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"[${{ env.NOTIFICATION_TITLE }}](${{ env.JOB_URL }})\",\"content\":{\"status\":\"failed ❌\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
