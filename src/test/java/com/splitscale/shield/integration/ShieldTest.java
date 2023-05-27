@@ -37,7 +37,7 @@ public class ShieldTest {
   public void tearDown() throws IOException {
     Path CRED_TEST_DIR_PATH = PathProvider.getCredentialsDir();
     Path USER_TEST_DIR_PATH = PathProvider.getUserInfosDir();
-    // Path ENV_TEST_DIR_PATH = PathProvider.getEnvFilePath();
+    Path ENV_TEST_DIR_PATH = PathProvider.getEnvFilePath();
 
     // Delete the test directory and its contents
     Files.walk(CRED_TEST_DIR_PATH)
@@ -62,6 +62,18 @@ public class ShieldTest {
           }
         });
     Files.deleteIfExists(USER_TEST_DIR_PATH);
+
+    // Delete the test directory and its contents
+    Files.walk(ENV_TEST_DIR_PATH)
+        .map(Path::toFile)
+        .forEach(file -> {
+          if (!file.isDirectory() && file.getName().endsWith(".env")) {
+            if (!file.delete()) {
+              System.err.println("Failed to delete file: " + file);
+            }
+          }
+        });
+    Files.deleteIfExists(ENV_TEST_DIR_PATH);
   }
 
   @Test
