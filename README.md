@@ -1,62 +1,165 @@
-## RegisterController
+# Shield
 
-The `RegisterController` handles user registration requests.
+Shield is a simple authentication service built with java. It provides a simple REST API for ease.
 
-### API Endpoints
+# Getting Started
 
-- `POST /api/v1/register`: Register a new user by providing user details in the request body.
+before you can use shield, be sure to read the documentation.
 
-### Exception Handling
+Example using fetch in node
 
-The following exceptions are handled:
+```javascript
+const BASE_URL = 'http://localhost:8080';
+const ENDPOINT = '/api/v1/register';
 
-- `IOException`: Internal server error. Returns a response with an error message and HTTP status code 500.
-- `IllegalArgumentException`: Internal server error. Returns a response with an error message and HTTP status code 500.
-- `InvalidKeyException`: Bad request. Returns a response with an error message and HTTP status code 400.
+const data = {
+  username: 'admin',
+  password: 'admin',
+};
 
-## LoginController
+const response = await fetch(BASE_URL + ENDPOINT, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+});
+```
 
-The `LoginController` handles user login requests.
+It is important to note that the `BASE_URL` will be different from the example.</br>\
+Variations
 
-### API Endpoints
+```javascript
+const BASE_URL = 'http://localhost';
+const BASE_URL = 'http://splitscale.systems:8080';
+const BASE_URL = 'http://splitscale.systems';
+```
 
-- `POST /api/v1/login`: Log in a user by providing user credentials in the request body.
+take note that `8080` is the port number
 
-### Exception Handling
+# Endpoints
 
-The following exceptions are handled:
+## Registration
 
-- `IOException`: Internal server error. Returns a response with an error message and HTTP status code 500.
-- `InvalidKeyException`: Bad request. Returns a response with an error message and HTTP status code 400.
-- `GeneralSecurityException`: Unauthorized access. Returns a response with an error message and HTTP status code 401.
+This method returns the id of the user that has been registered.
 
-## ValidateController
+```
+POST BASE_URL/api/v1/register
+```
 
-The `ValidateController` handles JWT validation requests.
+### Request body
 
-### API Endpoints
+```json
+{
+  "username": "admin",
+  "password": "admin"
+}
+```
 
-- `POST /api/v1/validateJwt`: Validate a JWT (JSON Web Token) by providing the token and the user ID in the request body.
+### Response body
 
-### Exception Handling
+```json
+"fc4ef5de-6411-4e8f-bc8b-c95297015a0b"
+```
 
-The following exceptions are handled:
+# Login
 
-- `IOException`: Internal server error. Returns a response with an error message and HTTP status code 500.
-- `GeneralSecurityException`: Unauthorized access. Returns a response with an error message and HTTP status code 401.
+This method returns a `ShieldUser` on successful login.
 
-## InvalidateController
+```
+POST BASE_URL/api/v1/login
+```
 
-The `InvalidateController` handles JWT invalidation requests.
+### Request body
 
-### API Endpoints
+```json
+{
+  "username": "admin",
+  "password": "admin"
+}
+```
 
-- `POST /api/v1/inValidateJwt`: Invalidate a JWT by providing the token in the request body.
+### Response header
 
-### Exception Handling
+The header includes a `token` key that contains a valid JWT string
 
-The following exception is handled:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYW5kYWNlIiwiZXhwIjoxNjg1MTgxMzMzLCJuYmYiOjE2ODUxODA0MzMsImlhdCI6MTY4NTE4MDQzMywiYXVkIjoiOTNiM2ZiMzgtZWIwNS00OGM4LTg5MGMtNmI0MDY0ZGEyMTljIiwianRpIjoiSldULWQzNjZmMTYzLTM2NjktNDJiMy04ZTYzLTM1YzJhMGEzMTA5YyJ9.tHqLC1oUf_EEtKP2zA6RXLL_WKFG_wRtILSTu6aMFe4"
+}
+```
 
-- `GeneralSecurityException`: Unauthorized access. Returns a response with an error message and HTTP status code 401.
+### Response body
 
-Please note that you'll need to configure the appropriate mappings and dependencies for the `Register`, `Login`, `ValidateJwt`, and `InvalidateJwt` classes used in these controllers.
+```json
+{
+  "id": "93b3fb38-eb05-48c8-890c-6b4064da219c",
+  "created": "2023-05-27T09:40:33.000+00:00",
+  "edited": "2023-05-27T09:40:33.000+00:00",
+  "displayName": "joejoe",
+  "firstName": "joe",
+  "lastName": "daboss",
+  "photoUrl": "https://api.dicebear.com/6.x/notionists/svg?seed=Harley",
+  "email": "joedaboss@gmail.com"
+}
+```
+
+## ValidateJwt
+
+This method returns a `token` and the parsed jwt `claims`.</br>
+TODO: change the returned claims to custom claims in the future
+
+```
+POST BASE_URL/api/v1/validateJwt
+```
+
+### Request body
+
+```json
+{
+  "jwtToken": "eyJhbGciOiJIUzI1NiJ9...",
+  "userId": "93b3fb38-eb05-48c8-890c-6b4064da219c"
+}
+```
+
+### Response body
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYW5kYWNlIiwiZXhwIjoxNjg1MTgxMzMzLCJuYmYiOjE2ODUxODA0MzMsImlhdCI6MTY4NTE4MDQzMywiYXVkIjoiOTNiM2ZiMzgtZWIwNS00OGM4LTg5MGMtNmI0MDY0ZGEyMTljIiwianRpIjoiSldULWQzNjZmMTYzLTM2NjktNDJiMy04ZTYzLTM1YzJhMGEzMTA5YyJ9.tHqLC1oUf_EEtKP2zA6RXLL_WKFG_wRtILSTu6aMFe4",
+  "claims": {
+    "iss": "Candace",
+    "exp": 1685181333,
+    "nbf": 1685180433,
+    "iat": 1685180433,
+    "aud": "93b3fb38-eb05-48c8-890c-6b4064da219c",
+    "jti": "JWT-d366f163-3669-42b3-8e63-35c2a0a3109c"
+  }
+}
+```
+
+## invalidateJwt
+
+This method returns a string `token`.</br>
+
+```
+POST BASE_URL/api/v1/inValidateJwt
+```
+
+### Request body
+
+```json
+// valid token
+{
+  "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYW5kYWNlIiwiZXhwIjoxNjg1MTgxMzMzLCJuYmYiOjE2ODUxODA0MzMsImlhdCI6MTY4NTE4MDQzMywiYXVkIjoiOTNiM2ZiMzgtZWIwNS00OGM4LTg5MGMtNmI0MDY0ZGEyMTljIiwianRpIjoiSldULWQzNjZmMTYzLTM2NjktNDJiMy04ZTYzLTM1YzJhMGEzMTA5YyJ9.tHqLC1oUf_EEtKP2zA6RXLL_WKFG_wRtILSTu6aMFe4"
+}
+```
+
+### Response body
+
+```json
+// invalid token
+{
+  "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYW5kYWNlIiwiZXhwIjoxNjg1MTgwNDM0LCJuYmYiOjE2ODUxODA0MzQsImlhdCI6MTY4NTE4MDQzNCwiYXVkIjoiOTNiM2ZiMzgtZWIwNS00OGM4LTg5MGMtNmI0MDY0ZGEyMTljIiwianRpIjoiSldULWQzNjZmMTYzLTM2NjktNDJiMy04ZTYzLTM1YzJhMGEzMTA5YyJ9.OVCMcXquRxVME92gcn_a1jl6GlLTHD1EQMHjY9RxQ5I"
+}
+```
