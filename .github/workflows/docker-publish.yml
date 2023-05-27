@@ -50,12 +50,12 @@ jobs:
 
           echo "NOTIFICATION_INFO=${{ github.event.head_commit.message }}" >> $GITHUB_ENV
 
-      - name: Check if job suceeded
+      - name: Check if job succeeded
         if: ${{ success() }}
         run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"[${{ env.NOTIFICATION_TITLE }}](${{ env.JOB_URL }})\",\"content\":{\"status\":\"${{ github.workflow }} deployed 🚀\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
+          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.NOTIFICATION_TITLE }}\",\"url\":\"${{ env.JOB_URL }}\",\"content\":{\"status\":\"${{ github.workflow }} deployed 🚀\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
 
       - name: Check if job failed
         if: ${{ failure() }}
         run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"[${{ env.NOTIFICATION_TITLE }}](${{ env.JOB_URL }})\",\"content\":{\"status\":\"${{ github.workflow }} failed ❌\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
+          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.NOTIFICATION_TITLE }}\",\"url\":\"${{ env.JOB_URL }}\",\"content\":{\"status\":\"${{ github.workflow }} failed ❌\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
