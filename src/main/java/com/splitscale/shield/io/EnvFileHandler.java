@@ -1,29 +1,27 @@
 package com.splitscale.shield.io;
 
-import java.io.BufferedReader;
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.UUID;
 
 public class EnvFileHandler {
 
-  private final String envFilePath;
+  private final Path envFilePath;
   private final String signingKeyVariable;
 
-  public EnvFileHandler(String envFilePath, String signingKeyVariable) {
-    this.envFilePath = envFilePath;
+  public EnvFileHandler(Path envFilePath, String signingKeyVariable) {
+    this.envFilePath = envFilePath.resolve(".env");
     this.signingKeyVariable = signingKeyVariable;
   }
 
-  public void handleEnvFile() throws IOException {
-    File envFile = new File(envFilePath);
-
-    if (!envFile.exists()) {
+  public void createEnvFileIfNotExist() throws IOException {
+    if (!Files.exists(envFilePath)) {
       // Generate a signing key
       String signingKey = generateSigningKey();
 
@@ -33,15 +31,13 @@ public class EnvFileHandler {
   }
 
   private void createEnvFile(String signingKey) throws IOException {
-    File envFile = new File(envFilePath);
-
     // Create the directory if it doesn't exist
-    File directory = envFile.getParentFile();
-    if (!directory.exists() && !directory.mkdirs()) {
-      throw new IOException("Failed to create directory for .env file.");
+    Path directory = envFilePath.getParent();
+    if (!Files.exists(directory)) {
+      Files.createDirectories(directory);
     }
 
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(envFile))) {
+    try (BufferedWriter writer = Files.newBufferedWriter(envFilePath)) {
       writer.write(signingKeyVariable + "=" + signingKey);
     } catch (IOException e) {
       throw new IOException("Failed to create .env file.", e);
@@ -56,21 +52,19 @@ public class EnvFileHandler {
   }
 
   public String getSigningKeyFromEnvFile() throws IOException {
-    try (
-      BufferedReader reader = new BufferedReader(new FileReader(envFilePath))
-    ) {
-      String line;
-      while ((line = reader.readLine()) != null) {
-        if (line.startsWith(signingKeyVariable)) {
-          String[] parts = line.split("=");
-          if (parts.length == 2) {
-            return parts[1].trim();
-          }
-        }
-      }
-      throw new IOException("Signing key not found in .env file.");
-    } catch (IOException e) {
-      throw new IOException("Failed to read .env file.", e);
+    Dotenv dotenv;
+    try {
+      dotenv = Dotenv.configure().directory(envFilePath.getParent().toString()).load();
+    } catch (Exception e) {
+      throw new IOException("Signing key retrieval error: " + e.getMessage());
     }
+
+    String signingKey = dotenv.get(signingKeyVariable);
+
+    if (signingKey != null && !signingKey.isEmpty()) {
+      return signingKey;
+    }
+
+    throw new IOException("Signing key is empty");
   }
 }

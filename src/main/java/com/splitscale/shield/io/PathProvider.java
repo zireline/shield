@@ -7,8 +7,8 @@ public class PathProvider {
     // default
   }
 
-  public static String getEnvFilePath() {
-    return Path.of("src", "main", "resources", "jwt.env").toString();
+  public static Path getEnvFilePath() {
+    return Path.of("src", "main", "resources");
   }
 
   public static Path getUserInfosDir() {

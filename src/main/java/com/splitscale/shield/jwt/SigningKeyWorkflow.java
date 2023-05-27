@@ -1,11 +1,13 @@
 package com.splitscale.shield.jwt;
 
 import com.splitscale.shield.io.EnvFileHandler;
+import com.splitscale.shield.io.PathProvider;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.crypto.SecretKey;
 
@@ -17,35 +19,16 @@ public class SigningKeyWorkflow {
 
   public static SecretKey getSigningKey() throws IOException {
     final String SIGNING_KEY_VARIABLE = "SIGNING_KEY";
-    String envFilePath = getEnvFilePath();
+    Path envFilePath = PathProvider.getEnvFilePath();
 
     EnvFileHandler envFileHandler = new EnvFileHandler(
-      envFilePath,
-      SIGNING_KEY_VARIABLE
-    );
+        envFilePath,
+        SIGNING_KEY_VARIABLE);
 
-    // Call the handleEnvFile method to ensure the env file exists
-    envFileHandler.handleEnvFile();
+    envFileHandler.createEnvFileIfNotExist();
 
-    // Get the signing key from the env file
     String secretString = envFileHandler.getSigningKeyFromEnvFile();
 
     return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretString));
-  }
-
-  private static String getEnvFilePath() {
-    String currentDir = System.getProperty("user.dir");
-    String fileSeparator = System.getProperty("file.separator");
-    return (
-      currentDir +
-      fileSeparator +
-      "src" +
-      fileSeparator +
-      "main" +
-      fileSeparator +
-      "resources" +
-      fileSeparator +
-      "test.env"
-    );
   }
 }
