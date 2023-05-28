@@ -58,4 +58,18 @@ public class CredentialRepositoryImpl implements CredentialRepository {
   public void deleteAll() throws IOException {
     fileManager.deleteAll();
   }
+
+  @Override
+  public Credential getByUserInfoId(String id) throws IOException {
+    List<Credential> credentialList = fileManager.getAll();
+
+    for (Credential credential : credentialList) {
+      if (id.equals(credential.getUserId())) {
+        return credential;
+      }
+    }
+
+    throw new IOException("User with UserInfoId: " + id + " not found");
+  }
+
 }

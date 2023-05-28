@@ -24,11 +24,13 @@ import com.splitscale.shield.endpoints.login.LoginResponse;
 import com.splitscale.shield.endpoints.validate.ValidJwtResponse;
 import com.splitscale.shield.io.PathProvider;
 import com.splitscale.shield.repositories.ObjectNotFoundException;
+import com.splitscale.shield.shielduser.ShieldUser;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest
 public class ShieldTest {
+  ShieldUser shieldUser;
 
   @Autowired
   private Shield shield;
@@ -102,7 +104,9 @@ public class ShieldTest {
     CredentialRequest request = new CredentialRequest("joejoe", "password");
 
     // Verify that no exceptions are thrown
-    assertDoesNotThrow(() -> System.out.println(shield.loginUser(request).getToken()));
+    assertDoesNotThrow(() -> {
+      shieldUser = shield.loginUser(request).getUser();
+    });
   }
 
   @Test
@@ -137,5 +141,20 @@ public class ShieldTest {
     assertNotNull(invalidJwt);
 
     System.out.println("Invalid Jwt: " + invalidJwt);
+  }
+
+  @Test
+  @Order(5)
+  public void updateShieldUser() throws IOException {
+    // Prepare test data
+    shieldUser.setFirstName("John"); // Set the updated first name
+    shieldUser.setLastName("Doe"); // Set the updated last name
+
+    // Verify that no exceptions are thrown
+    assertDoesNotThrow(() -> shield.updateShieldUser(shieldUser));
+
+    CredentialRequest request = new CredentialRequest("joejoe", "password");
+
+    assertDoesNotThrow(() -> System.out.println(shield.loginUser(request).getUser().getFirstName()));
   }
 }

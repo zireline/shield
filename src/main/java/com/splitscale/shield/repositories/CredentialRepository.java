@@ -8,13 +8,15 @@ import com.splitscale.shield.credential.Credential;
 public interface CredentialRepository {
   public Credential getById(String id) throws IOException;
 
+  public Credential getByUserInfoId(String id) throws IOException;
+
   public List<Credential> getAll() throws IOException;
 
   public Credential getByUsername(String username) throws IOException, ObjectNotFoundException;
 
-  public String add(Credential user) throws IOException;
+  public String add(Credential credential) throws IOException;
 
-  public void update(Credential user) throws IOException;
+  public void update(Credential credential) throws IOException;
 
   public void delete(String id) throws IOException;
 
