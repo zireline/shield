@@ -163,3 +163,6 @@ POST BASE_URL/api/v1/inValidateJwt
   "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDYW5kYWNlIiwiZXhwIjoxNjg1MTgwNDM0LCJuYmYiOjE2ODUxODA0MzQsImlhdCI6MTY4NTE4MDQzNCwiYXVkIjoiOTNiM2ZiMzgtZWIwNS00OGM4LTg5MGMtNmI0MDY0ZGEyMTljIiwianRpIjoiSldULWQzNjZmMTYzLTM2NjktNDJiMy04ZTYzLTM1YzJhMGEzMTA5YyJ9.OVCMcXquRxVME92gcn_a1jl6GlLTHD1EQMHjY9RxQ5I"
 }
 ```
+
+# Implement in next auth
+[NextAuth.js Custom provider guide](https://next-auth.js.org/configuration/providers/credentials)</br>
