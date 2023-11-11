@@ -14,7 +14,6 @@ on:
     
 env:
   IMAGE_NAME: shield
-  NOTIFICATION_URL: "http://splitscale.systems:3030/notifications"
   NOTIFICATION_INFO: "Build and Test"
   
 jobs:
@@ -35,13 +34,3 @@ jobs:
       
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-
-    - name: Check if job suceeded
-      if: ${{ success() }}
-      run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.IMAGE_NAME }}\",\"content\":{\"status\":\"passed\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
-    
-    - name: Check if job failed
-      if: ${{ failure() }}
-      run: |
-          curl -X POST -H "Content-Type: application/json" -d "{\"title\":\"${{ env.IMAGE_NAME }}\",\"content\":{\"status\":\"failed\",\"info\":\"${{ env.NOTIFICATION_INFO }}\"}}" ${{ env.NOTIFICATION_URL }}
