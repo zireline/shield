@@ -22,8 +22,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.splitscale.shield.Shield;
 import com.splitscale.shield.credential.CredentialRequest;
 import com.splitscale.shield.endpoints.login.LoginResponse;
+import com.splitscale.shield.endpoints.login.Tokens;
+import com.splitscale.shield.endpoints.refresh.RefreshRequest;
 import com.splitscale.shield.endpoints.validate.ValidJwtResponse;
 import com.splitscale.shield.io.PathProvider;
+import com.splitscale.shield.refreshtoken.RefreshTokenManager;
 import com.splitscale.shield.repositories.ObjectNotFoundException;
 import com.splitscale.shield.shielduser.ShieldUser;
 
@@ -136,17 +139,6 @@ public class ShieldTest {
 
   @Test
   @Order(4)
-  public void testInValidateJwt()
-      throws InvalidKeyException, IOException, ObjectNotFoundException, GeneralSecurityException {
-
-    String invalidJwt = shield.inValidateJwt(response.getTokens().getAccessToken());
-    assertNotNull(invalidJwt);
-
-    System.out.println("Invalid Jwt: " + invalidJwt);
-  }
-
-  @Test
-  @Order(5)
   public void updateShieldUser() throws IOException {
     ShieldUser shieldUser = response.getUser();
 
@@ -160,5 +152,22 @@ public class ShieldTest {
     CredentialRequest request = new CredentialRequest("joejoe", "password");
 
     assertDoesNotThrow(() -> System.out.println(shield.loginUser(request).getUser().getFirstName()));
+  }
+
+  @Test
+  @Order(5)
+  public void refreshTest() throws IOException {
+    ShieldUser shieldUser = response.getUser();
+
+    RefreshRequest request = new RefreshRequest(shieldUser.getId(), response.getTokens().getRefreshToken());
+
+    assertDoesNotThrow(() -> {
+      Tokens tokens = shield.refresh(request);
+
+      assertNotNull(tokens);
+
+      System.out.println("Access Token: " + tokens.getAccessToken());
+      System.out.println("Refresh Token: " + tokens.getRefreshToken());
+    });
   }
 }

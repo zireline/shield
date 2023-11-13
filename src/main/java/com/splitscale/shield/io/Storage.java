@@ -1,6 +1,9 @@
 package com.splitscale.shield.io;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -100,8 +103,15 @@ public class Storage<T> {
         String json = Files.readString(filePath);
         T object = gson.fromJson(json, typeParameterClass);
 
-        if (key.equals(value)) {
-          return object;
+        // Assuming that the objects are represented as JSON objects
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        JsonElement jsonElement = jsonObject.get(key);
+
+        if (jsonElement != null && jsonElement.isJsonPrimitive()) {
+          String elementValue = jsonElement.getAsString();
+          if (elementValue.equals(value)) {
+            return object;
+          }
         }
       }
     }
