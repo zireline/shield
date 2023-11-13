@@ -26,9 +26,8 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
   }
 
   @Override
-  public String add(UserInfo user) throws IOException {
+  public void add(UserInfo user) throws IOException {
     fileManager.create(user);
-    return user.getId();
   }
 
   @Override

@@ -1,0 +1,11 @@
+{
+  "user": {
+    "id": "123",
+    "username": "user1",
+    "email": "user1@example.com"
+  },
+  "tokens": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+    "refreshToken": "d4601d8e8774c2110adad76b63f1741c"
+  }
+}

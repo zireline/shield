@@ -12,7 +12,7 @@ public class AddCredentialInteractor {
     this.repository = repository;
   }
 
-  public String add(Credential credential) throws IOException {
-    return repository.add(credential);
+  public void add(Credential credential) throws IOException {
+    repository.add(credential);
   }
 }

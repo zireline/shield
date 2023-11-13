@@ -16,7 +16,7 @@ import com.splitscale.shield.credential.CredentialRequest;
 import io.jsonwebtoken.security.InvalidKeyException;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/auth/v1/credential")
 public class RegisterController {
   private Register register;
 
@@ -28,9 +28,11 @@ public class RegisterController {
   @PostMapping("/register")
   public ResponseEntity<String> registerUser(@RequestBody CredentialRequest request)
       throws InvalidKeyException, IOException {
-    String id = register.registerUser(request);
+    register.registerUser(request);
 
-    return new ResponseEntity<>(id, HttpStatus.OK);
+    String msg = "Registered successfully";
+
+    return new ResponseEntity<>(msg, HttpStatus.OK);
   }
 
   // Exception handlers

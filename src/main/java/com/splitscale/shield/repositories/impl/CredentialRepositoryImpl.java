@@ -40,8 +40,8 @@ public class CredentialRepositoryImpl implements CredentialRepository {
   }
 
   @Override
-  public String add(Credential credential) throws IOException {
-    return fileManager.create(credential);
+  public void add(Credential credential) throws IOException {
+    fileManager.create(credential);
   }
 
   @Override

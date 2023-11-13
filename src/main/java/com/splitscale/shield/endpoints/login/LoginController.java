@@ -5,7 +5,6 @@ import java.security.GeneralSecurityException;
 
 import io.jsonwebtoken.security.InvalidKeyException;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,10 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.splitscale.shield.credential.CredentialRequest;
 import com.splitscale.shield.repositories.ObjectNotFoundException;
-import com.splitscale.shield.shielduser.ShieldUser;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/auth/v1/credential")
 public class LoginController {
   private Login login;
 
@@ -30,17 +28,11 @@ public class LoginController {
 
   @ResponseBody
   @PostMapping("/login")
-  public ResponseEntity<ShieldUser> loginUser(@RequestBody CredentialRequest request)
+  public ResponseEntity<LoginResponse> loginUser(@RequestBody CredentialRequest request)
       throws InvalidKeyException, IOException, ObjectNotFoundException {
     LoginResponse response = login.loginUser(request);
 
-    // Create HttpHeaders object
-    HttpHeaders headers = new HttpHeaders();
-
-    // Add the JWT token to the response header
-    headers.add("token", response.getToken());
-
-    return new ResponseEntity<>(response.getUser(), headers, HttpStatus.OK);
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   // Exception handlers

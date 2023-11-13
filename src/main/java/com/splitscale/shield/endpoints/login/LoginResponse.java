@@ -3,28 +3,20 @@ package com.splitscale.shield.endpoints.login;
 import com.splitscale.shield.shielduser.ShieldUser;
 
 public class LoginResponse {
-  private String token;
+  private Tokens tokens;
   private ShieldUser user;
 
-  public LoginResponse(String token, ShieldUser user) {
-    this.token = token;
+  public LoginResponse(Tokens tokens, ShieldUser user) {
+    this.tokens = tokens;
     this.user = user;
   }
 
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
+  public Tokens getTokens() {
+    return tokens;
   }
 
   public ShieldUser getUser() {
     return user;
-  }
-
-  public void setUser(ShieldUser user) {
-    this.user = user;
   }
 
 }

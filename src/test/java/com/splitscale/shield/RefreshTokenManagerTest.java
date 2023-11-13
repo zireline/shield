@@ -19,16 +19,18 @@ class RefreshTokenManagerTest {
     TimeUnit days = TimeUnit.DAYS;
     String uid = "some-id";
 
-    // Generate refresh token for user with ID "some-id"
-    String generatedToken = refreshTokenManager.generateRefreshToken(uid, 30, days); // 24 hours
-    System.out.println("Generated Refresh Token: " + generatedToken);
+    assertDoesNotThrow(() -> {
+      // Generate refresh token for user with ID "some-id"
+      String generatedToken = refreshTokenManager.generateRefreshToken(uid, 30, days); // 24 hours
+      System.out.println("Generated Refresh Token: " + generatedToken);
 
-    // Validate the refresh token for user with ID uid
-    boolean isValidToken = refreshTokenManager.validateRefreshToken(generatedToken, uid);
-    assertTrue(isValidToken, "Refresh token should be valid");
+      // Validate the refresh token for user with ID uid
+      boolean isValidToken = refreshTokenManager.validateRefreshToken(generatedToken, uid);
+      assertTrue(isValidToken, "Refresh token should be valid");
 
-    // Validate an invalid refresh token
-    boolean isInvalidToken = refreshTokenManager.validateRefreshToken("invalid_token", uid);
-    assertFalse(isInvalidToken, "Refresh token should be invalid");
+      // Validate an invalid refresh token
+      boolean isInvalidToken = refreshTokenManager.validateRefreshToken("invalid_token", uid);
+      assertFalse(isInvalidToken, "Refresh token should be invalid");
+    });
   }
 }

@@ -1,5 +1,6 @@
 package com.splitscale.shield.refreshtoken;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +12,7 @@ public class RefreshTokenManager {
     this.tokenStorage = tokenStorage;
   }
 
-  public String generateRefreshToken(String userId, long expirationTime, TimeUnit timeUnit) {
+  public String generateRefreshToken(String userId, long expirationTime, TimeUnit timeUnit) throws IOException {
     long expirationMillis = System.currentTimeMillis() + timeUnit.toMillis(expirationTime);
     Date expirationDate = new Date(expirationMillis);
     String refreshToken = UUID.randomUUID().toString();
@@ -22,7 +23,7 @@ public class RefreshTokenManager {
     return refreshToken;
   }
 
-  public boolean validateRefreshToken(String refreshToken, String userId) {
+  public boolean validateRefreshToken(String refreshToken, String userId) throws IOException {
     TokenInfo storedToken = tokenStorage.retrieveToken(refreshToken);
 
     if (storedToken != null) {

@@ -1,7 +1,9 @@
 package com.splitscale.shield.refreshtoken;
 
-public interface TokenStorage {
-  void storeToken(String token, TokenInfo tokenInfo);
+import java.io.IOException;
 
-  TokenInfo retrieveToken(String token);
+public interface TokenStorage {
+  void storeToken(String token, TokenInfo tokenInfo) throws IOException;
+
+  TokenInfo retrieveToken(String token) throws IOException;
 }

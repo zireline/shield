@@ -38,8 +38,8 @@ public class Shield {
     return login.loginUser(request);
   }
 
-  public String registerUser(CredentialRequest request) throws IllegalArgumentException, IOException {
-    return register.registerUser(request);
+  public void registerUser(CredentialRequest request) throws IllegalArgumentException, IOException {
+    register.registerUser(request);
   }
 
   public ValidJwtResponse validateJwt(String jwtToken, String userId) throws GeneralSecurityException, IOException {

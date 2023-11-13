@@ -12,7 +12,7 @@ public class AddUserInfoInteractor {
     this.repository = repository;
   }
 
-  public String add(UserInfo userInfo) throws IOException {
-    return repository.add(userInfo);
+  public void add(UserInfo userInfo) throws IOException {
+    repository.add(userInfo);
   }
 }
