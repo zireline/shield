@@ -1,23 +1,23 @@
 package com.splitscale.shield.refreshtoken;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class RefreshTokenManager {
   private TokenStorage tokenStorage;
-  private long tokenExpiration = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
   public RefreshTokenManager(TokenStorage tokenStorage) {
     this.tokenStorage = tokenStorage;
   }
 
-  public String generateRefreshToken(String userId) {
+  public String generateRefreshToken(String userId, long expirationTime, TimeUnit timeUnit) {
+    long expirationMillis = System.currentTimeMillis() + timeUnit.toMillis(expirationTime);
+    Date expirationDate = new Date(expirationMillis);
     String refreshToken = UUID.randomUUID().toString();
-    long expirationTime = System.currentTimeMillis() + tokenExpiration;
 
     // Store the refresh token using the provided token storage
-    tokenStorage.storeToken(refreshToken, new TokenInfo(userId, expirationTime));
+    tokenStorage.storeToken(refreshToken, new TokenInfo(userId, expirationDate));
 
     return refreshToken;
   }
@@ -26,9 +26,9 @@ public class RefreshTokenManager {
     TokenInfo storedToken = tokenStorage.retrieveToken(refreshToken);
 
     if (storedToken != null) {
-      long currentTimeMillis = System.currentTimeMillis();
+      Date currentDate = new Date();
 
-      if (storedToken.getUserId().equals(userId) && storedToken.getExpiresAt() > currentTimeMillis) {
+      if (storedToken.getUserId().equals(userId) && storedToken.getExpirationDate().after(currentDate)) {
         // Valid refresh token
         return true;
       }
@@ -37,5 +37,4 @@ public class RefreshTokenManager {
     // Invalid or expired refresh token
     return false;
   }
-
 }
