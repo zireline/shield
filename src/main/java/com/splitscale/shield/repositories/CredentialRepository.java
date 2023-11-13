@@ -14,7 +14,7 @@ public interface CredentialRepository {
 
   public Credential getByUsername(String username) throws IOException, ObjectNotFoundException;
 
-  public String add(Credential credential) throws IOException;
+  public void add(Credential credential) throws IOException;
 
   public void update(Credential credential) throws IOException;
 

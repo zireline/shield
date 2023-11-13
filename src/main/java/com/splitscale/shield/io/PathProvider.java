@@ -18,4 +18,8 @@ public class PathProvider {
   public static Path getCredentialsDir() {
     return Path.of("src", "main", "resources", "credentials");
   }
+
+  public static Path getRefreshTokensDir() {
+    return Path.of("src", "main", "resources", "tokens");
+  }
 }

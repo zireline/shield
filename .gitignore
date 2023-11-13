@@ -1,5 +1,6 @@
 # Maven target directory
 /target/
+src/main/java/com/splitscale/shield/resources
 
 # Compiled sources
 **/target/

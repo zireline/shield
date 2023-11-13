@@ -25,7 +25,7 @@ public class RegisterWorkflow {
     this.addUserInfoInteractor = addUserInfoInteractor;
   }
 
-  public String register(CredentialRequest request) throws IOException, IllegalArgumentException {
+  public void register(CredentialRequest request) throws IOException, IllegalArgumentException {
     Credential existingCredential = readCredentialInteractor.getByUsername(request.getUsername());
 
     if (existingCredential != null) {
@@ -40,10 +40,7 @@ public class RegisterWorkflow {
     UserInfo user = new UserInfo(userInfoId, new Date(), new Date(), null, null, null,
         null);
 
-    String uid = addUserInfoInteractor.add(user);
-
-    System.out.println(uid);
-
-    return addCredentialInteractor.add(credential);
+    addUserInfoInteractor.add(user);
+    addCredentialInteractor.add(credential);
   }
 }

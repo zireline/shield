@@ -10,7 +10,7 @@ public interface UserInfoRepository {
 
   public List<UserInfo> getAll() throws IOException;
 
-  public String add(UserInfo user) throws IOException;
+  public void add(UserInfo user) throws IOException;
 
   public void update(UserInfo user) throws IOException;
 
