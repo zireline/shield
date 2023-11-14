@@ -7,11 +7,20 @@ Shield is a simple authentication service built with java. It provides a simple 
 before you can use shield, be sure to read the documentation.
 
 ## Docker
-Run sheild in container
+Run shield in container
 ```sh
 sudo docker run -p 8080:8080 -d kasutu/shield
 ```
 
+## Java Maven
+Run this project after cloning using `mvn`
+```sh
+mvn spring-boot:run
+```
+if you havnt installed maven, [Install maven now](https://maven.apache.org/install.html)
+
+---
+# Payloads
 Example using fetch in node
 
 ```javascript
