@@ -6,6 +6,12 @@ Shield is a simple authentication service built with java. It provides a simple 
 
 before you can use shield, be sure to read the documentation.
 
+## Docker
+Run sheild in container
+```sh
+sudo docker run -p 8080:8080 -d kasutu/shield
+```
+
 Example using fetch in node
 
 ```javascript
