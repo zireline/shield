@@ -1,4 +1,4 @@
-package com.splitscale.shield.endpoints.userinfo.update;
+package com.splitscale.shield.endpoints.users.update;
 
 import java.io.IOException;
 

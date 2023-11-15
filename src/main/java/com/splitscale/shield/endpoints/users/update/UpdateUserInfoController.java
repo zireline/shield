@@ -1,4 +1,4 @@
-package com.splitscale.shield.endpoints.userinfo.update;
+package com.splitscale.shield.endpoints.users.update;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.splitscale.shield.shielduser.ShieldUser;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/auth/v1")
 public class UpdateUserInfoController {
   private UpdateUserInfo updateUserInfo;
 
@@ -23,7 +23,7 @@ public class UpdateUserInfoController {
   }
 
   @ResponseBody
-  @PutMapping("/userInfo")
+  @PutMapping("/users")
   public ResponseEntity<Object> updateUserInfo(@RequestBody ShieldUser request) throws IOException {
     updateUserInfo.update(request);
 

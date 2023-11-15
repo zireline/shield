@@ -2,6 +2,7 @@ package com.splitscale.shield;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -12,11 +13,13 @@ import com.splitscale.shield.endpoints.login.Tokens;
 import com.splitscale.shield.endpoints.refresh.Refresh;
 import com.splitscale.shield.endpoints.refresh.RefreshRequest;
 import com.splitscale.shield.endpoints.register.Register;
-import com.splitscale.shield.endpoints.userinfo.update.UpdateUserInfo;
+import com.splitscale.shield.endpoints.users.get.GetAllUserInfo;
+import com.splitscale.shield.endpoints.users.update.UpdateUserInfo;
 import com.splitscale.shield.endpoints.validate.ValidJwtResponse;
 import com.splitscale.shield.endpoints.validate.ValidateJwt;
 import com.splitscale.shield.repositories.ObjectNotFoundException;
 import com.splitscale.shield.shielduser.ShieldUser;
+import com.splitscale.shield.userinfo.UserInfo;
 
 @Component
 public class Shield {
@@ -24,14 +27,16 @@ public class Shield {
   private Register register;
   private ValidateJwt validateJwt;
   private UpdateUserInfo updateUserInfo;
+  private GetAllUserInfo getAllUserInfo;
   private Refresh refresh;
 
   public Shield(Login login, Register register, ValidateJwt validateJwt, UpdateUserInfo updateUserInfo,
-      Refresh refresh) {
+      GetAllUserInfo getAllUserInfo, Refresh refresh) {
     this.login = login;
     this.register = register;
     this.validateJwt = validateJwt;
     this.updateUserInfo = updateUserInfo;
+    this.getAllUserInfo = getAllUserInfo;
     this.refresh = refresh;
   }
 
@@ -54,5 +59,9 @@ public class Shield {
 
   public Tokens refresh(RefreshRequest request) throws IOException {
     return refresh.refresh(request);
+  }
+
+  public List<UserInfo> getAll() throws IOException {
+    return getAllUserInfo.getALl();
   }
 }

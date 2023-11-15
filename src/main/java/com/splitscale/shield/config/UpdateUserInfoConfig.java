@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.splitscale.shield.credential.update.UpdateCredentialUsernameInteractor;
-import com.splitscale.shield.endpoints.userinfo.update.UpdateUserInfo;
+import com.splitscale.shield.endpoints.users.update.UpdateUserInfo;
 import com.splitscale.shield.repositories.CredentialRepository;
 import com.splitscale.shield.repositories.UserInfoRepository;
 import com.splitscale.shield.userinfo.update.UpdateUserInfoInteractor;

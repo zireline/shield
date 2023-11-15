@@ -1,5 +1,6 @@
 package com.splitscale.shield.integration;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -8,13 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
+import java.util.List;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,9 +27,9 @@ import com.splitscale.shield.endpoints.login.Tokens;
 import com.splitscale.shield.endpoints.refresh.RefreshRequest;
 import com.splitscale.shield.endpoints.validate.ValidJwtResponse;
 import com.splitscale.shield.io.PathProvider;
-import com.splitscale.shield.refreshtoken.RefreshTokenManager;
 import com.splitscale.shield.repositories.ObjectNotFoundException;
 import com.splitscale.shield.shielduser.ShieldUser;
+import com.splitscale.shield.userinfo.UserInfo;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
@@ -168,6 +169,22 @@ public class ShieldTest {
 
       System.out.println("Access Token: " + tokens.getAccessToken());
       System.out.println("Refresh Token: " + tokens.getRefreshToken());
+    });
+  }
+
+  @Test
+  @Order(6)
+  public void getAllUserTest() throws IOException {
+
+    assertDoesNotThrow(() -> {
+      List<UserInfo> users = shield.getAll();
+
+      assertFalse(users.isEmpty());
+
+      for (UserInfo user : users) {
+        System.out.println("User ID: " + user.getId());
+        System.out.println("User ID: " + user.getFirstName());
+      }
     });
   }
 }
