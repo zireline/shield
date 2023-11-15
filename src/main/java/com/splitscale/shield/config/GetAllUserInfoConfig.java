@@ -3,6 +3,7 @@ package com.splitscale.shield.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.splitscale.shield.credential.read.ReadAllCredentialInteractor;
 import com.splitscale.shield.endpoints.users.get.GetAllUserInfo;
 import com.splitscale.shield.repositories.UserInfoRepository;
 import com.splitscale.shield.userinfo.getall.GetAllUserInfoInteractor;
@@ -16,8 +17,9 @@ public class GetAllUserInfoConfig {
   }
 
   @Bean
-  public GetAllUserInfoWorkflow getAllUserInfoWorkflow(GetAllUserInfoInteractor interactor) {
-    return new GetAllUserInfoWorkflow(interactor);
+  public GetAllUserInfoWorkflow getAllUserInfoWorkflow(GetAllUserInfoInteractor interactor,
+      ReadAllCredentialInteractor read) {
+    return new GetAllUserInfoWorkflow(interactor, read);
   }
 
   @Bean

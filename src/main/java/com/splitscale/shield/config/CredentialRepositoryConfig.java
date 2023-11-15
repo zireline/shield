@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.google.gson.Gson;
+import com.splitscale.shield.credential.read.ReadAllCredentialInteractor;
 import com.splitscale.shield.credential.read.ReadCredentialInteractor;
 import com.splitscale.shield.io.CredentialFileManager;
 import com.splitscale.shield.io.PathProvider;
@@ -17,6 +18,11 @@ public class CredentialRepositoryConfig {
   @Bean
   ReadCredentialInteractor getReadUserInteractor(CredentialRepository repository) {
     return new ReadCredentialInteractor(repository);
+  }
+
+  @Bean
+  ReadAllCredentialInteractor getReadAllUserInteractor(CredentialRepository repository) {
+    return new ReadAllCredentialInteractor(repository);
   }
 
   @Bean
