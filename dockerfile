@@ -25,5 +25,4 @@ COPY --from=builder /app/target/shield**.jar /app
 EXPOSE 8080
 
 # Run the application
-RUN ["ls", "-a"]
-CMD ["java", "-jar", "shield**.jar"]
+ENTRYPOINT ["java", "-jar", "shield**.jar"]
